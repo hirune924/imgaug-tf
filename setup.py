@@ -6,6 +6,6 @@ setup(
     #url="https://github.com/hirune924/imgaug-tf/",
     #packages=find_packages("src"),
     #package_dir={"imgaugtf": "src"},
-    py_modules=["functions", 'augmentations', 'batch_augmentations', 'utils']
+    py_modules=["functions", 'augmentations', 'batch_augmentations', 'utils'],
     package_dir={"": "src"},
 )
