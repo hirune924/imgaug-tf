@@ -7,5 +7,5 @@ setup(
     #packages=find_packages("src"),
     #package_dir={"imgaugtf": "src"},
     #py_modules=["imgaugtf"]
-    packages=find_packages()
+    packages=['src']
 )
