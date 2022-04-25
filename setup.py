@@ -4,7 +4,8 @@ setup(
     name='imgaugtf',
     version='0.1',
     packages=find_packages(),
-    url="https://github.com/hirune924/imgaug-tf/",
-    package_dir={"": "src"},
+    #url="https://github.com/hirune924/imgaug-tf/",
+    #package_dir={"": "src"},
+    #package_dir={"src"},
     py_modules=["imgaugtf"]
 )
