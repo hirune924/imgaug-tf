@@ -3,7 +3,7 @@ import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
 
-from augmentations import *
+from imgaugtf.augmentations import *
 
 operators = [
     {'func':random_solarize, 'option':{'threshold': 128}},
