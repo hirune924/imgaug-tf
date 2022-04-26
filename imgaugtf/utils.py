@@ -5,7 +5,15 @@ import math
 
 from imgaugtf.augmentations import *
 
-operators = [
+__all__ = [
+    'apply_one',
+    'apply_n',
+    'OPERATORS',
+    'PIXEL_OPERATORS',
+    #'GEO_OPERATORS',
+]
+
+OPERATORS = [
     {'func':random_flip_left_right, 'option':{}},
     {'func':random_flip_up_down, 'option':{}},
     {'func':random_cutout, 'option':{'num_holes': 8, 'hole_size': 20, 'replace': 0}},
@@ -29,7 +37,7 @@ operators = [
     {'func':random_mean_filter2d, 'option':{'filter_shape': (3,3)}},
     {'func':random_median_filter2d, 'option':{'filter_shape': (3,3)}}
 ]
-pixel_operators = [
+PIXEL_OPERATORS = [
     {'func':random_cutout, 'option':{'num_holes': 8, 'hole_size': 20, 'replace': 0}},
     {'func':random_solarize, 'option':{'threshold': 128}},
     {'func':random_solarize_add, 'option':{'addition':30, 'threshold': 128}},
@@ -46,7 +54,7 @@ pixel_operators = [
     {'func':random_mean_filter2d, 'option':{'filter_shape': (3,3)}},
     {'func':random_median_filter2d, 'option':{'filter_shape': (3,3)}}
 ]
-geo_operators = [
+GEO_OPERATORS = [
     {'func':random_flip_left_right, 'option':{}},
     {'func':random_flip_up_down, 'option':{}},
     {'func':random_rotate, 'option':{'degree_range': (-90, 90), 'replace': 0}},
