@@ -38,7 +38,7 @@ for i in range(10):
 ```
 
 ## Augmentations
-### pixcel
+### pixel
 * random_solarize
 * random_solarize_add
 * random_color
@@ -53,6 +53,7 @@ for i in range(10):
 * random_gaussian_filter2d
 * random_mean_filter2d
 * random_median_filter2d
+* random_cutout
 
 ### geometory
 * random_flip_left_right
