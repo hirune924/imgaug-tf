@@ -3,8 +3,8 @@ import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
 
-#from imgaugtf.augmentations import *
 from . import augmentations as aug
+
 __all__ = [
     'apply_one',
     'apply_n',
