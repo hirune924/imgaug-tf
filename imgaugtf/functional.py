@@ -356,7 +356,7 @@ def zoom(image, scale, interop, fill_mode, fill_value):
     #h, w, _ = image.shape
     #w = tf.constant(w, dtype=tf.float32)
     #h = tf.constant(h, dtype=tf.float32)
-    h, w = tf.shape(image)[0], tf.shape(image)[1]
+    h, w = tf.cast(tf.shape(image)[0], tf.float32), tf.cast(tf.shape(image)[1], tf.float32)
     translate_x = 0.5 * (w - (w * scale[0]))
     translate_y = 0.5 * (h - (h * scale[1]))
     matrix = [ scale[0], 0.0, translate_x, 0.0, scale[1], translate_y, 0.0, 0.0 ]
