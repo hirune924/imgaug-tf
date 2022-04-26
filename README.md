@@ -4,7 +4,7 @@ An image augmentation library for tensorflow.
 This library is implemented in TF native and has been confirmed to work with TPU.
 
 ## Installation
-```python
+```bash
 %env TOKEN=[your secret access token]
 !pip install -U git+https://$$TOKEN@github.com/hirune924/imgaug-tf
 ```
