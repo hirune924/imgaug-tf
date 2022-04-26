@@ -20,7 +20,7 @@ import imgaugtf
 
 def augmentation(example):
     example['image'] = imgaugtf.random_resized_crop(example['image'], size=[256, 256], prob=1.0)
-    example['image'] = imgaugtf.apply_n(example['image'], functions=imgaugtf.operators, num_ops=2, prob=1.0)
+    example['image'] = imgaugtf.apply_n(example['image'], functions=imgaugtf.OPERATORS, num_ops=2, prob=1.0)
     return example
 
 def batch_augmentation(example, num_class=120):
