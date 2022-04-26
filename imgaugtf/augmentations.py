@@ -147,6 +147,6 @@ def random_cutout(image, num_holes=8, hole_size=20, replace=0, prob=0.5):
     return apply_func_with_prob(_random_cutout, image, (num_holes, hole_size, replace), prob)
 
 def random_zoom(image, scale=(0.2, 0.2), interpolation: str = "nearest", fill_mode="constant", fill_value=0, prob=0.5):
-    scale_x = tf.random.uniform([], 1.0 - scale[0], 1.0 + scale[0])
-    scale_y = tf.random.uniform([], 1.0 - scale[1], 1.0 + scale[1])
-    return apply_func_with_prob(F.zoom, image, ((scale_x, scale_y), interpolation, fill_mode, fill_value), prob)
+    scale = tf.random.uniform([], 1.0 - scale[0], 1.0 + scale[0])
+    #scale_y = tf.random.uniform([], 1.0 - scale[1], 1.0 + scale[1])
+    return apply_func_with_prob(F.zoom, image, ((scale, scale), interpolation, fill_mode, fill_value), prob)
