@@ -33,7 +33,7 @@ PIXEL_OPERATORS = [
 GEO_OPERATORS = [
     {'func':aug.random_flip_left_right, 'option':{}},
     {'func':aug.random_flip_up_down, 'option':{}},
-    {'func':aug.random_rotate, 'option':{'degree_range': (-90, 90), 'replace': 0}},
+    {'func':aug.random_rotate, 'option':{'degree_range': (-90, 90), 'interpolation':'nearest', 'fill_mode': 'constant', 'fill_value': 0.0}},
     {'func':aug.random_translate_x, 'option':{'percent': 0.5, 'replace': 0}},
     {'func':aug.random_translate_y, 'option':{'percent': 0.5, 'replace': 0}},
     {'func':aug.random_shear_x, 'option':{'percent': 0.3, 'replace': 0}},

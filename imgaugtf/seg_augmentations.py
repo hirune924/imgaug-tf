@@ -8,7 +8,7 @@ __all__ = [
     'random_flip_left_right',
 ]
 
-def apply_func_with_prob_mask(func, image, mask, args, prob):
+def apply_func_with_prob_mask(func, image, mask, args, mask_args,  prob):
     """Apply `func` to image w/ `args` as input with probability `prob`."""
 
     # Apply the function with probability `prob`.
@@ -21,7 +21,7 @@ def apply_func_with_prob_mask(func, image, mask, args, prob):
         lambda: image)
     augmented_mask = tf.cond(
         should_apply_op,
-        lambda: func(mask, *args),
+        lambda: func(mask, *mask_args),
         lambda: mask)
     return augmented_image, augmented_mask
 
@@ -31,6 +31,7 @@ def apply_func_with_prob(func, image, args, prob):
     # Apply the function with probability `prob`.
     should_apply_op = tf.cast(
         tf.floor(tf.random.uniform([], dtype=tf.float32) + prob), tf.bool)
+    
     augmented_image = tf.cond(
         should_apply_op,
         lambda: func(image, *args),
@@ -38,10 +39,10 @@ def apply_func_with_prob(func, image, args, prob):
     return augmented_image
 
 def random_flip_left_right(image, mask, prob=0.5):
-    return apply_func_with_prob_mask(tf.image.flip_left_right, image, mask, (), prob)
+    return apply_func_with_prob_mask(tf.image.flip_left_right, image, mask, (), (), prob)
 
 def random_flip_up_down(image, mask, prob=0.5):
-    return apply_func_with_prob_mask(tf.image.flip_up_down, image, mask, (), prob)
+    return apply_func_with_prob_mask(tf.image.flip_up_down, image, mask, (), (), prob)
 
 def random_solarize(image, mask, threshold=128, prob=0.5):
     return apply_func_with_prob(F.solarize, image, (threshold, ), prob), mask
@@ -64,6 +65,6 @@ def random_brightness(image, mask, max_delta=0.1, seed=None, prob=0.5):
 def random_posterize(image, mask, bits=4, prob=0.5):
     return apply_func_with_prob(F.posterize, image, (bits,), prob), mask
 
-def random_rotate(image, mask, degree_range=(-90, 90), replace=0, prob=0.5):
+def random_rotate(image, degree_range=(-90, 90), interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
     degree = tf.random.uniform([], minval=degree_range[0], maxval=degree_range[1], dtype=tf.float32)
-    return apply_func_with_prob_mask(F.rotate, image, mask, (degree, replace, ), prob)
+    return apply_func_with_prob_mask(F.rotate, image, (degree, interpolation, fill_mode, fill_value, ), (degree, 'nearest', fill_mode, fill_value, ), prob)

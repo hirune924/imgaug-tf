@@ -183,9 +183,12 @@ def posterize(image, bits):
     return tf.bitwise.left_shift(tf.bitwise.right_shift(image, shift), shift)
 
 
-
+interpolation: str = 'nearest',
+    fill_mode: str = 'constant',
+    name: Optional[str] = None,
+    fill_value: tfa.types.TensorLike = 0.0
 @tf.function
-def rotate(image, degrees, replace):
+def rotate(image, degrees, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Rotates the image by degrees either clockwise or counterclockwise.
     Args:
     image: An image Tensor of type uint8.
@@ -204,7 +207,7 @@ def rotate(image, degrees, replace):
     # In practice, we should randomize the rotation degrees by flipping
     # it negatively half the time, but that's done on 'degrees' outside
     # of the function.
-    return tfa.image.rotate(image, radians, fill_value=replace)
+    return tfa.image.rotate(image, radians, interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
 
 
 

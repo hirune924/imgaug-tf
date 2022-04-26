@@ -70,10 +70,10 @@ def random_brightness(image, max_delta=0.1, seed=None, prob=0.5):
 
 def random_posterize(image, bits=4, prob=0.5):
     return apply_func_with_prob(F.posterize, image, (bits,), prob)
-
-def random_rotate(image, degree_range=(-90, 90), replace=0, prob=0.5):
+    
+def random_rotate(image, degree_range=(-90, 90), interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
     degree = tf.random.uniform([], minval=degree_range[0], maxval=degree_range[1], dtype=tf.float32)
-    return apply_func_with_prob(F.rotate, image, (degree, replace, ), prob)
+    return apply_func_with_prob(F.rotate, image, (degree, interpolation, fill_mode, fill_value, ), prob)
 
 def random_invert(image, prob=0.5):
     return apply_func_with_prob(F.invert, image, (), prob)
