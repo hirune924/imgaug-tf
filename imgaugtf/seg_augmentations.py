@@ -65,6 +65,6 @@ def random_brightness(image, mask, max_delta=0.1, seed=None, prob=0.5):
 def random_posterize(image, mask, bits=4, prob=0.5):
     return apply_func_with_prob(F.posterize, image, (bits,), prob), mask
 
-def random_rotate(image, degree_range=(-90, 90), interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
+def random_rotate(image, mask, degree_range=(-90, 90), interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
     degree = tf.random.uniform([], minval=degree_range[0], maxval=degree_range[1], dtype=tf.float32)
-    return apply_func_with_prob_mask(F.rotate, image, (degree, interpolation, fill_mode, fill_value, ), (degree, 'nearest', fill_mode, fill_value, ), prob)
+    return apply_func_with_prob_mask(F.rotate, image, mask, (degree, interpolation, fill_mode, fill_value, ), (degree, 'nearest', fill_mode, fill_value, ), prob)
