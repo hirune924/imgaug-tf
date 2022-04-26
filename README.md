@@ -64,6 +64,7 @@ for i in range(10):
 * random_translate_y
 * random_shear_x
 * random_shear_y
+* random_zoom
 
 ### blend
 * mixup
