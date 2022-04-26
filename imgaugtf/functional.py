@@ -350,7 +350,7 @@ def shear_y(image, level, replace):
     return tfa.image.shear_y(image, level, replace)
 
 @tf.function
-def zoom(image, scale, interop, fill_mode, fill_value):
+def scale_xy(image, scale, interop, fill_mode, fill_value):
     """Zoom In/Out"""
     image = tf.convert_to_tensor(image)
     h, w = tf.cast(tf.shape(image)[0], tf.float32), tf.cast(tf.shape(image)[1], tf.float32)
