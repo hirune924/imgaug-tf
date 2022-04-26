@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
-from imgaugtf.functions import *
+from imgaugtf.functional import *
 
 def apply_func_with_prob(func, image, args, prob):
     """Apply `func` to image w/ `args` as input with probability `prob`."""

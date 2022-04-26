@@ -58,11 +58,10 @@ def cutmix(image, label):
     Reference: https://arxiv.org/pdf/1905.04899.pdf
     Arguments:
         image: a Tensor of batched images.
-        label: a Tensor of batched labels.
-        mask: a Tensor of batched masks.
+        label: a Tensor of batched one-hot labels.
     Returns:
-        A new dict of features with updated images and labels with the same
-        dimensions as the input with CutMix regularization applied.
+        Updated images and labels with the same dimensions as the input
+        with CutMix regularization applied.
     """
     image = tf.cast(image, tf.float32)
     image_height, image_width = tf.shape(image)[1], tf.shape(image)[2]
