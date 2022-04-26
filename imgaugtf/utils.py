@@ -64,7 +64,7 @@ GEO_OPERATORS = [
     {'func':random_shear_y, 'option':{'percent': 0.3, 'replace': 0}},
 ]
 
-def apply_one(image, functions=operators, prob=1.0):
+def apply_one(image, functions=OPERATORS, prob=1.0):
     def _apply_one(image, functions):
         op_to_select = tf.random.uniform([], maxval=len(functions), dtype=tf.int32)
         for (i, op) in enumerate(functions):
@@ -74,11 +74,11 @@ def apply_one(image, functions=operators, prob=1.0):
                 lambda: image)
         return image
     return tf.cond(tf.random.uniform([], 0, 1) < prob,
-     lambda: _apply_one(image, functions=operators), lambda: image)
+     lambda: _apply_one(image, functions=functions), lambda: image)
 
-def apply_n(image, functions=operators, num_ops=2, prob=1.0):
+def apply_n(image, functions=OPERATORS, num_ops=2, prob=1.0):
     def _apply_n(image, functions, num_ops, prob):
         for i in range(num_ops):
             image = apply_one(image, functions=functions, prob=prob)
         return image
-    return _apply_n(image, functions=operators, num_ops=num_ops, prob=prob)
+    return _apply_n(image, functions=functions, num_ops=num_ops, prob=prob)
