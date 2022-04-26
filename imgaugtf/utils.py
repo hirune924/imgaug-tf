@@ -10,7 +10,7 @@ __all__ = [
     'apply_n',
     'OPERATORS',
     'PIXEL_OPERATORS',
-    #'GEO_OPERATORS',
+    'GEO_OPERATORS',
 ]
 
 OPERATORS = [

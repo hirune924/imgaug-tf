@@ -3,9 +3,27 @@ import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
 
-####################
-# Functions
-####################
+__all__ = [
+    'random_crop',
+    'cutout',
+    'solarize',
+    'solarize_add',
+    'color',
+    'contrast',
+    'brightness',
+    'posterize',
+    'rotate',
+    'invert',
+    'equalize',
+    'sharpness',
+    'autocontrast',
+    'translate_x',
+    'translate_y',
+    'shear_x',
+    'shear_y',
+]
+
+
 @tf.function
 def random_crop(image, area_range=(0.05, 1.0), aspect_ratio_range=(0.75,1.33)):
     begin, size, _ = tf.image.sample_distorted_bounding_box(

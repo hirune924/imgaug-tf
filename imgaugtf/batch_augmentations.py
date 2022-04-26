@@ -3,6 +3,10 @@ import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
 
+__all__ = [
+    'mixup',
+    'cutmix',
+]
 
 def mixup(image, label, alpha=0.5):
     batch_size = tf.shape(image)[0]
