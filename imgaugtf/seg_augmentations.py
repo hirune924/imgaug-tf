@@ -54,4 +54,16 @@ def random_color(image, mask, alpha_range=(0.2, 0.8), prob=0.5):
     '''if alpha is 0, return gray image. alpha is 1, do nothing.'''
     alpha = tf.random.uniform([], minval=alpha_range[0], maxval=alpha_range[1], dtype=tf.float32)
     return apply_func_with_prob(F.color, image, (alpha, ), prob), mask
-    
+
+def random_contrast(image, mask, lower=0.2, upper=0.8, seed=None, prob=0.5):
+    return apply_func_with_prob(tf.image.random_contrast, image, (lower, upper, seed,), prob), mask
+
+def random_brightness(image, mask, max_delta=0.1, seed=None, prob=0.5):
+    return apply_func_with_prob(tf.image.random_brightness, image, (max_delta, seed,), prob), mask
+
+def random_posterize(image, mask, bits=4, prob=0.5):
+    return apply_func_with_prob(F.posterize, image, (bits,), prob), mask
+
+def random_rotate(image, mask, degree_range=(-90, 90), replace=0, prob=0.5):
+    degree = tf.random.uniform([], minval=degree_range[0], maxval=degree_range[1], dtype=tf.float32)
+    return apply_func_with_prob_mask(F.rotate, image, mask, (degree, replace, ), prob)
