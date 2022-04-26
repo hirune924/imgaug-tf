@@ -4,5 +4,5 @@ from .utils import *
 #from . import utils as utl
 from .functional import *
 from .batch_augmentations import *
-from . import segaugmentations as seg
+from . import seg_augmentations as seg
 
