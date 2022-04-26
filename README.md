@@ -14,6 +14,7 @@ Required packages:
 - tensorflow_probability (0.14.1 or higher recommended)
 
 ## Quick Start
+imgaugtf is implemented to work simply with tf.data.
 ```python
 import imgaugtf
 

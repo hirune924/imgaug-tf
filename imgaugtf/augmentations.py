@@ -111,3 +111,10 @@ def random_resized_crop(image, size=[256, 256], area_range=(0.05, 1.0), aspect_r
     return tf.cond(tf.random.uniform([], 0, 1) < prob,
      lambda: _random_resized_crop(image, size, area_range=area_range, aspect_ratio_range=aspect_ratio_range),
      lambda: tf.cast(tf.image.resize(image, size=size), tf.uint8))
+
+def random_cutout(image, num_holes=8, hole_size=20, replace=0, prob=0.5):
+    def _random_cutout(image, num_holes, hole_size, replace):
+        for _ in range(num_holes):
+            image = cutout(image, pad_size=hole_size//2, replace=replace)
+        return image
+    return apply_func_with_prob(_random_cutout, image, (num_holes, hole_size, replace), prob)
