@@ -38,6 +38,7 @@ GEO_OPERATORS = [
     {'func':aug.random_translate_y, 'option':{'percent': 0.5, 'replace': 0}},
     {'func':aug.random_shear_x, 'option':{'percent': 0.3, 'replace': 0}},
     {'func':aug.random_shear_y, 'option':{'percent': 0.3, 'replace': 0}},
+    {'func':aug.random_zoom, 'option':{'scale': (-0.2, 0.2), 'interpolation': 'nearest', 'fill_mode': 'constant', 'fill_value': 0}},
 ]
 
 OPERATORS = PIXEL_OPERATORS + GEO_OPERATORS
