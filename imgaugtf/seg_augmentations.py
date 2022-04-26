@@ -4,6 +4,10 @@ import tensorflow_probability as tfp
 import math
 from . import functional as F
 
+__all__ = [
+    'random_flip_left_right',
+]
+
 def apply_func_with_prob(func, image, mask, args, prob):
     """Apply `func` to image w/ `args` as input with probability `prob`."""
 
