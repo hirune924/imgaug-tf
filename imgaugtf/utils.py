@@ -6,6 +6,8 @@ import math
 from imgaugtf.augmentations import *
 
 operators = [
+    {'func':random_flip_left_right, 'option':{}},
+    {'func':random_flip_up_down, 'option':{}},
     {'func':random_solarize, 'option':{'threshold': 128}},
     {'func':random_solarize_add, 'option':{'addition':30, 'threshold': 128}},
     {'func':random_color, 'option':{'alpha_range': (0.2, 0.8)}},

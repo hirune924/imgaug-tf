@@ -12,8 +12,8 @@ Required packages:
 - tensorflow (2.6.3 or higher recommended)
 - tensorflow_addons (0.14.0 or higher recommended)
 - tensorflow_probability (0.14.1 or higher recommended)
-## Quick Start
 
+## Quick Start
 ```python
 import imgaugtf
 
@@ -52,7 +52,10 @@ for i in range(10):
 * random_gaussian_filter2d
 * random_mean_filter2d
 * random_median_filter2d
+
 ### geometory
+* random_flip_left_right
+* random_flip_up_down
 * random_resized_crop
 * random_rotate
 * random_translate_x
@@ -63,7 +66,6 @@ for i in range(10):
 ### blend
 * mixup
 * cutmix
-
 
 ### compose
 * apply_one

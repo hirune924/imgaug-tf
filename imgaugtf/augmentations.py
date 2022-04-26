@@ -16,6 +16,12 @@ def apply_func_with_prob(func, image, args, prob):
         lambda: image)
     return augmented_image
 
+def random_flip_left_right(image, prob=0.5):
+    return apply_func_with_prob(tf.image.flip_left_right, image, (), prob)
+
+def random_flip_up_down(image, prob=0.5):
+    return apply_func_with_prob(tf.image.flip_up_down, image, (), prob)
+
 def random_solarize(image, threshold=128, prob=0.5):
 
     return apply_func_with_prob(solarize, image, (threshold, ), prob)
