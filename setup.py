@@ -13,9 +13,9 @@ setup(
     url="https://github.com/hirune924/imgaug-tf/",
     packages=find_packages(),
     license="Apache License Version 2.0",
-    install_requires=[
-        "tensorflow >= 2.0",
-        "tensorflow-addons >= 0.7.1",
-        ],
-    python_requires='>=3.4',
+    #install_requires=[
+    #    "tensorflow >= 2.0",
+    #    "tensorflow-addons >= 0.7.1",
+    #    ],
+    #python_requires='>=3.4',
 )
