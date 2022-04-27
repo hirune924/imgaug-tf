@@ -27,7 +27,12 @@ __all__ = [
 @tf.function
 def random_crop(image, area_range=(0.05, 1.0), aspect_ratio_range=(0.75, 1.33)):
     begin, size, _ = tf.image.sample_distorted_bounding_box(
-        tf.shape(image), tf.zeros([0, 0, 4], tf.float32), area_range=area_range, aspect_ratio_range=aspect_ratio_range, min_object_covered=0, use_image_if_no_bounding_boxes=True, seed=0
+        tf.shape(image), tf.zeros([0, 0, 4], tf.float32), 
+        area_range=area_range, 
+        aspect_ratio_range=aspect_ratio_range, 
+        min_object_covered=0, 
+        use_image_if_no_bounding_boxes=True, 
+        seed=0
     )
     image = tf.slice(image, begin, size)
     image.set_shape([None, None, 3])
