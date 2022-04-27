@@ -15,6 +15,7 @@ __all__ = [
     "random_posterize",
     "random_rotate",
     "random_invert",
+    "random_gray",
     "random_equalize",
     "random_sharpness",
     "random_autocontrast",
@@ -123,7 +124,9 @@ def random_invert(image, prob=0.5):
 
 def random_gray(image, prob=0.5):
     """return 1 channel image. this should be reimplement. recommend use random_color!!"""
-    return apply_func_with_prob(tf.image.rgb_to_grayscale, image, (), prob)
+    def _to_gray(image):
+        return tf.image.grayscale_to_rgb(tf.image.rgb_to_grayscale(image))
+    return apply_func_with_prob(_to_gray, image, (), prob)
 
 
 def random_equalize(image, bins=256, prob=0.5):

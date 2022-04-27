@@ -9,14 +9,14 @@ __all__ = [
 ]
 
 
-def apply_func_with_prob_mask(func, image, mask, args, mask_args, prob):
+def apply_func_with_prob_mask(func, mask_func image, mask, args, mask_args, prob):
     """Apply `func` to image w/ `args` as input with probability `prob`."""
 
     # Apply the function with probability `prob`.
     should_apply_op = tf.cast(tf.floor(tf.random.uniform([], dtype=tf.float32) + prob), tf.bool)
 
     augmented_image = tf.cond(should_apply_op, lambda: func(image, *args), lambda: image)
-    augmented_mask = tf.cond(should_apply_op, lambda: func(mask, *mask_args), lambda: mask)
+    augmented_mask = tf.cond(should_apply_op, lambda: mask_func(mask, *mask_args), lambda: mask)
     return augmented_image, augmented_mask
 
 
@@ -31,11 +31,11 @@ def apply_func_with_prob(func, image, args, prob):
 
 
 def random_flip_left_right(image, mask, prob=0.5):
-    return apply_func_with_prob_mask(tf.image.flip_left_right, image, mask, (), (), prob)
+    return apply_func_with_prob_mask(tf.image.flip_left_right, tf.image.flip_left_right, image, mask, (), (), prob)
 
 
 def random_flip_up_down(image, mask, prob=0.5):
-    return apply_func_with_prob_mask(tf.image.flip_up_down, image, mask, (), (), prob)
+    return apply_func_with_prob_mask(tf.image.flip_up_down, tf.image.flip_up_down, image, mask, (), (), prob)
 
 
 def random_solarize(image, mask, threshold=128, prob=0.5):
@@ -103,6 +103,7 @@ def random_rotate(image, mask, degree_range=(-90, 90), interpolation="nearest", 
     degree = tf.random.uniform([], minval=degree_range[0], maxval=degree_range[1], dtype=tf.float32)
     return apply_func_with_prob_mask(
         F.rotate,
+        F.rotate,
         image,
         mask,
         (
@@ -119,3 +120,28 @@ def random_rotate(image, mask, degree_range=(-90, 90), interpolation="nearest", 
         ),
         prob,
     )
+
+def random_invert(image, mask, prob=0.5):
+    return apply_func_with_prob(F.invert, image, (), prob), mask
+
+
+def random_gray(image, mask, prob=0.5):
+    """return 1 channel image. this should be reimplement. recommend use random_color!!"""
+    def _to_gray(image):
+        return tf.image.grayscale_to_rgb(tf.image.rgb_to_grayscale(image))
+    return apply_func_with_prob(_to_gray, image, (), prob), mask
+
+
+def random_equalize(image, mask, bins=256, prob=0.5):
+    # return apply_func_with_prob(tfa.image.equalize, image, (bins,), prob)
+    return apply_func_with_prob(F.equalize, image, (), prob), mask
+
+
+def random_sharpness(image, mask, alpha_range=(-3.0, 3.0), prob=0.5):
+    alpha = tf.random.uniform([], minval=alpha_range[0], maxval=alpha_range[1], dtype=tf.float32)
+    return apply_func_with_prob(F.sharpness, image, (alpha,), prob), mask
+
+
+def random_autocontrast(image, mask, prob=0.5):
+    return apply_func_with_prob(F.autocontrast, image, (), prob), mask
+
