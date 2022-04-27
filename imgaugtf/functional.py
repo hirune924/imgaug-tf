@@ -4,43 +4,40 @@ import tensorflow_probability as tfp
 import math
 
 __all__ = [
-    "random_crop",
-    "cutout",
-    "solarize",
-    "solarize_add",
-    "color",
-    "contrast",
-    "brightness",
-    "posterize",
-    "rotate",
-    "invert",
-    "equalize",
-    "sharpness",
-    "autocontrast",
-    "translate_x",
-    "translate_y",
-    "shear_x",
-    "shear_y",
+    'random_crop',
+    'cutout',
+    'solarize',
+    'solarize_add',
+    'color',
+    'contrast',
+    'brightness',
+    'posterize',
+    'rotate',
+    'invert',
+    'equalize',
+    'sharpness',
+    'autocontrast',
+    'translate_x',
+    'translate_y',
+    'shear_x',
+    'shear_y',
 ]
 
 
 @tf.function
-def random_crop(image, area_range=(0.05, 1.0), aspect_ratio_range=(0.75, 1.33)):
+def random_crop(image, area_range=(0.05, 1.0), aspect_ratio_range=(0.75,1.33)):
     begin, size, _ = tf.image.sample_distorted_bounding_box(
         tf.shape(image),
         tf.zeros([0, 0, 4], tf.float32),
         area_range=area_range,
         aspect_ratio_range=aspect_ratio_range,
         min_object_covered=0,
-        use_image_if_no_bounding_boxes=True,
-        seed=0,
-    )
+        use_image_if_no_bounding_boxes=True, seed=0)
     image = tf.slice(image, begin, size)
     image.set_shape([None, None, 3])
     image = tf.clip_by_value(image, 0, 255)
     image = tf.cast(image, dtype=tf.uint8)
     return image
-
 
 @tf.function
 def cutout(image, pad_size, replace=0):
@@ -64,33 +61,31 @@ def cutout(image, pad_size, replace=0):
 
     # Sample the center location in the image where the zero mask will be applied.
     cutout_center_height = tf.random.uniform(
-        shape=[], minval=0, maxval=image_height, dtype=tf.int32
-    )
+      shape=[], minval=0, maxval=image_height,
+      dtype=tf.int32)
 
     cutout_center_width = tf.random.uniform(
-        shape=[], minval=0, maxval=image_width, dtype=tf.int32
-    )
+      shape=[], minval=0, maxval=image_width,
+      dtype=tf.int32)
 
     lower_pad = tf.maximum(0, cutout_center_height - pad_size)
     upper_pad = tf.maximum(0, image_height - cutout_center_height - pad_size)
     left_pad = tf.maximum(0, cutout_center_width - pad_size)
     right_pad = tf.maximum(0, image_width - cutout_center_width - pad_size)
 
-    cutout_shape = [
-        image_height - (lower_pad + upper_pad),
-        image_width - (left_pad + right_pad),
-    ]
+    cutout_shape = [image_height - (lower_pad + upper_pad),
+                  image_width - (left_pad + right_pad)]
     padding_dims = [[lower_pad, upper_pad], [left_pad, right_pad]]
     mask = tf.pad(
-        tf.zeros(cutout_shape, dtype=image.dtype), padding_dims, constant_values=1
-    )
+      tf.zeros(cutout_shape, dtype=image.dtype),
+      padding_dims, constant_values=1)
     mask = tf.expand_dims(mask, -1)
     mask = tf.tile(mask, [1, 1, 3])
     image = tf.where(
-        tf.equal(mask, 0), tf.ones_like(image, dtype=image.dtype) * replace, image
-    )
+      tf.equal(mask, 0),
+      tf.ones_like(image, dtype=image.dtype) * replace,
+      image)
     return image
-
 
 @tf.function
 def solarize(image, threshold=128):
@@ -98,7 +93,6 @@ def solarize(image, threshold=128):
     # if the value is less than the threshold.
     # Otherwise, subtract 255 from the pixel.
     return tf.where(image < threshold, image, 255 - image)
-
 
 @tf.function
 def solarize_add(image, addition=0, threshold=128):
@@ -109,7 +103,6 @@ def solarize_add(image, addition=0, threshold=128):
     added_image = tf.cast(image, tf.int64) + addition
     added_image = tf.cast(tf.clip_by_value(added_image, 0, 255), tf.uint8)
     return tf.where(image < threshold, added_image, image)
-
 
 @tf.function
 def blend(image1, image2, factor):
@@ -151,7 +144,6 @@ def blend(image1, image2, factor):
     # We need to clip and then cast.
     return tf.cast(tf.clip_by_value(temp, 0.0, 255.0), tf.uint8)
 
-
 @tf.function
 def color(image, factor):
     """Equivalent of PIL Color."""
@@ -176,12 +168,12 @@ def contrast(image, factor):
     degenerate = tf.image.grayscale_to_rgb(tf.cast(degenerate, tf.uint8))
     return tf.cast(tfa.image.blend(degenerate, image, factor), tf.uint8)
 
-
 @tf.function
 def brightness(image, factor):
     """Equivalent of PIL Brightness."""
     degenerate = tf.zeros_like(image)
     return tf.cast(tfa.image.blend(degenerate, image, factor), tf.uint8)
+
 
 
 @tf.function
@@ -192,9 +184,7 @@ def posterize(image, bits):
 
 
 @tf.function
-def rotate(
-    image, degrees, interpolation="nearest", fill_mode="constant", fill_value=0.0
-):
+def rotate(image, degrees, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Rotates the image by degrees either clockwise or counterclockwise.
     Args:
     image: An image Tensor of type uint8.
@@ -213,13 +203,8 @@ def rotate(
     # In practice, we should randomize the rotation degrees by flipping
     # it negatively half the time, but that's done on 'degrees' outside
     # of the function.
-    return tfa.image.rotate(
-        image,
-        radians,
-        interpolation=interpolation,
-        fill_mode=fill_mode,
-        fill_value=fill_value,
-    )
+    return tfa.image.rotate(image, radians, interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
+
 
 
 @tf.function
@@ -228,11 +213,9 @@ def invert(image):
     image = tf.convert_to_tensor(image)
     return 255 - image
 
-
 @tf.function
 def equalize(image):
     """Implements Equalize function from PIL using TF ops."""
-
     def scale_channel(im, c):
         """Scale the data in the channel to implement equalize."""
         im = tf.cast(im[:, :, c], tf.int32)
@@ -256,9 +239,9 @@ def equalize(image):
 
         # If step is zero, return the original image.  Otherwise, build
         # lut from the full histogram and step and then index from it.
-        result = tf.cond(
-            tf.equal(step, 0), lambda: im, lambda: tf.gather(build_lut(histo, step), im)
-        )
+        result = tf.cond(tf.equal(step, 0),
+                         lambda: im,
+                         lambda: tf.gather(build_lut(histo, step), im))
 
         return tf.cast(result, tf.uint8)
 
@@ -279,18 +262,14 @@ def sharpness(image, factor):
     # Make image 4D for conv operation.
     image = tf.expand_dims(image, 0)
     # SMOOTH PIL Kernel.
-    kernel = (
-        tf.constant(
-            [[1, 1, 1], [1, 5, 1], [1, 1, 1]], dtype=tf.float32, shape=[3, 3, 1, 1]
-        )
-        / 13.0
-    )
+    kernel = tf.constant(
+      [[1, 1, 1], [1, 5, 1], [1, 1, 1]], dtype=tf.float32,
+      shape=[3, 3, 1, 1]) / 13.
     # Tile across channel dimension.
     kernel = tf.tile(kernel, [1, 1, 3, 1])
     strides = [1, 1, 1, 1]
     degenerate = tf.nn.depthwise_conv2d(
-        image, kernel, strides, padding="VALID", dilations=[1, 1]
-    )
+      image, kernel, strides, padding='VALID', dilations=[1, 1])
     degenerate = tf.clip_by_value(degenerate, 0.0, 255.0)
     degenerate = tf.squeeze(tf.cast(degenerate, tf.uint8), [0])
 
@@ -303,7 +282,6 @@ def sharpness(image, factor):
 
     # Blend the final result.
     return tf.cast(blend(result, orig_image, factor), tf.uint8)
-
 
 @tf.function
 def autocontrast(image):
@@ -331,11 +309,9 @@ def autocontrast(image):
             im = tf.clip_by_value(im, 0.0, 255.0)
             return tf.cast(im, tf.uint8)
 
-        result = tf.cond(
-            hi > lo, lambda: scale_values(image), lambda: tf.cast(image, tf.uint8)
-        )
+        result = tf.cond(hi > lo, lambda: scale_values(image), lambda: tf.cast(image, tf.uint8))
         return result
-
+    
     # Assumes RGB for now.  Scales each channel independently
     # and then stacks the result.
     s1 = scale_channel(image[:, :, 0])
@@ -344,18 +320,15 @@ def autocontrast(image):
     image = tf.stack([s1, s2, s3], 2)
     return image
 
-
 @tf.function
 def translate_x(image, pixels, replace):
     """Equivalent of PIL Translate in X dimension."""
-    return tfa.image.translate_xy(image, translate_to=[pixels, 0], replace=replace)
-
+    return tfa.image.translate_xy(image, translate_to=[pixels,0], replace=replace)
 
 @tf.function
 def translate_y(image, pixels, replace):
     """Equivalent of PIL Translate in Y dimension."""
-    return tfa.image.translate_xy(image, translate_to=[0, pixels], replace=replace)
-
+    return tfa.image.translate_xy(image, translate_to=[0,pixels], replace=replace)
 
 @tf.function
 def shear_x(image, level, replace):
@@ -366,7 +339,6 @@ def shear_x(image, level, replace):
     #  0  1].
     return tfa.image.shear_x(image, level, replace)
 
-
 @tf.function
 def shear_y(image, level, replace):
     """Equivalent of PIL Shearing in Y dimension."""
@@ -376,17 +348,12 @@ def shear_y(image, level, replace):
     #  level  1].
     return tfa.image.shear_y(image, level, replace)
 
-
 @tf.function
 def scale_xy(image, scale, interop, fill_mode, fill_value):
     """Zoom In/Out"""
     image = tf.convert_to_tensor(image)
-    h, w = tf.cast(tf.shape(image)[0], tf.float32), tf.cast(
-        tf.shape(image)[1], tf.float32
-    )
+    h, w = tf.cast(tf.shape(image)[0], tf.float32), tf.cast(tf.shape(image)[1], tf.float32)
     translate_x = 0.5 * (w - (w * scale[0]))
     translate_y = 0.5 * (h - (h * scale[1]))
-    matrix = [scale[0], 0.0, translate_x, 0.0, scale[1], translate_y, 0.0, 0.0]
-    return tfa.image.transform(
-        image, matrix, interpolation=interop, fill_mode=fill_mode, fill_value=fill_value
-    )
+    matrix = [ scale[0], 0.0, translate_x, 0.0, scale[1], translate_y, 0.0, 0.0 ]
+    return tfa.image.transform(image, matrix, interpolation=interop, fill_mode=fill_mode, fill_value=fill_value)

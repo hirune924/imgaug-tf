@@ -4,23 +4,23 @@ import tensorflow_probability as tfp
 import math
 
 __all__ = [
-    "mixup",
-    "cutmix",
+    'mixup',
+    'cutmix',
 ]
-
 
 def mixup(image, label, alpha=0.5):
     batch_size = tf.shape(image)[0]
     image = tf.cast(image, tf.float32)
     mix_weight = tfp.distributions.Beta(alpha, alpha).sample([batch_size, 1])
-    mix_weight = tf.maximum(mix_weight, 1.0 - mix_weight)
-    img_weight = tf.cast(tf.reshape(mix_weight, [batch_size, 1, 1, 1]), image.dtype)
+    mix_weight = tf.maximum(mix_weight, 1. - mix_weight)
+    img_weight = tf.cast(
+        tf.reshape(mix_weight, [batch_size, 1, 1, 1]), image.dtype)
     # Mixup on a single batch is implemented by taking a weighted sum with the
     # same batch in reverse.
-    image = image * img_weight + image[::-1] * (1.0 - img_weight)
+    image = image * img_weight + image[::-1] * (1. - img_weight)
     label_weight = tf.cast(mix_weight, label.dtype)
     label = label * label_weight + label[::-1] * (1 - label_weight)
-
+    
     image = tf.clip_by_value(image, 0, 255)
     image = tf.cast(image, dtype=tf.uint8)
     return image, label
@@ -51,10 +51,9 @@ def cutmix_mask(alpha, h, w):
     mask = tf.pad(
         tf.ones((r_h, r_w)),
         paddings=[[pad_top, pad_bottom], [pad_left, pad_right]],
-        mode="CONSTANT",
-        constant_values=0,
-    )
-    # mask.set_shape((h, w))
+        mode='CONSTANT',
+        constant_values=0)
+    #mask.set_shape((h, w))
     return mask[..., None]  # Add channel dim.
 
 
@@ -75,10 +74,11 @@ def cutmix(image, label):
     # actual area of cut & mix pixels
     mix_area = tf.reduce_sum(mask) / tf.cast(tf.size(mask), mask.dtype)
     mask = tf.cast(mask, image.dtype)
-    mixed_image = (1.0 - mask) * image + mask * image[::-1]
+    mixed_image = (1. - mask) * image + mask * image[::-1]
     mix_area = tf.cast(mix_area, label.dtype)
-    mixed_label = (1.0 - mix_area) * label + mix_area * label[::-1]
-
+    mixed_label = (1. - mix_area) * label + mix_area * label[::-1]
+    
     mixed_image = tf.clip_by_value(mixed_image, 0, 255)
     mixed_image = tf.cast(mixed_image, dtype=tf.uint8)
     return mixed_image, mixed_label
+
