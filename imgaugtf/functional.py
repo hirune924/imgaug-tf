@@ -350,3 +350,29 @@ def scale_xy(image, scale, interop, fill_mode, fill_value):
     translate_y = 0.5 * (h - (h * scale[1]))
     matrix = [scale[0], 0.0, translate_x, 0.0, scale[1], translate_y, 0.0, 0.0]
     return tfa.image.transform(image, matrix, interpolation=interop, fill_mode=fill_mode, fill_value=fill_value)
+
+@tf.function
+def grid_shuffle(image, grid_x, grid_y, grid_size, order):
+    """Grid Shuffle"""
+    image = tf.convert_to_tensor(image)
+    h = tf.cast(tf.shape(image)[0], tf.int32)
+    w = tf.cast(tf.shape(image)[1], tf.int32)
+    c = tf.cast(tf.shape(image)[2], tf.int32)
+    pad_h = h - grid_y * grid_size[1]
+    pad_w = w - grid_x * grid_size[0]
+    mask = tf.ones([grid_y * grid_size[1], grid_x * grid_size[0], c], dtype=tf.bool)
+    mask = tf.pad(mask, [[0, pad_h], [0, pad_w], [0, 0]])
+    block = [ None ] * grid_size[1]
+    index = 0
+    for j in range(grid_size[1]):
+        rows = [ None ] * grid_size[0]
+        for i in range(grid_size[0]):
+            k = order[index]
+            row, col = k // grid_size[0], k % grid_size[0]
+            rows[i] = tf.slice(image, [grid_y * row, grid_x * col, 0], [grid_y, grid_x, c])
+            index = index + 1
+        block[j] = tf.concat(rows, axis=1)
+    out = tf.concat(block, axis=0)
+    out = tf.pad(out, [[0, pad_h], [0, pad_w], [0, 0]])
+    out = tf.where(mask == True, out, image)
+    return out
