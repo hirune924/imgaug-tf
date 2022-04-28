@@ -1,4 +1,5 @@
-#from .seg import *
+from . import seg
+
 from .functional import (
     cutout,
     solarize,
