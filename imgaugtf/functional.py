@@ -2,26 +2,6 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
-'''
-__all__ = [
-    "cutout",
-    "solarize",
-    "solarize_add",
-    "color",
-    "contrast",
-    "brightness",
-    "posterize",
-    "rotate",
-    "invert",
-    "equalize",
-    "sharpness",
-    "autocontrast",
-    "translate_x",
-    "translate_y",
-    "shear_x",
-    "shear_y",
-]
-'''
 
 @tf.function
 def cutout(image, pad_size, cutout_center_height, cutout_center_width, replace=0):
