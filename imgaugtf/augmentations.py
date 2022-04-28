@@ -155,14 +155,14 @@ def random_translate_y(image, percent=0.5, interpolation='nearest', fill_mode='c
     return apply_func_with_prob(F.translate_y, image, (pixels, interpolation, fill_mode, fill_value), prob)
 
 
-def random_shear_x(image, percent=0.3, replace=0, prob=0.5):
+def random_shear_x(image, percent=0.3, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
     level = tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
-    return apply_func_with_prob(F.shear_x, image, (level, replace), prob)
+    return apply_func_with_prob(F.shear_x, image, (level, interpolation, fill_mode, fill_value), prob)
 
 
-def random_shear_y(image, percent=0.3, replace=0, prob=0.5):
+def random_shear_y(image, percent=0.3, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
     level = tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
-    return apply_func_with_prob(F.shear_y, image, (level, replace), prob)
+    return apply_func_with_prob(F.shear_y, image, (level, interpolation, fill_mode, fill_value), prob)
 
 
 def random_hsv_in_yiq(image, max_delta_hue=0.2, lower_saturation=0.5, upper_saturation=1.0, lower_value=0.5, upper_value=1.0, prob=0.5):

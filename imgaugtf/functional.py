@@ -317,7 +317,6 @@ def autocontrast(image):
 @tf.function
 def translate_x(image, pixels, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Equivalent of PIL Translate in X dimension."""
-    #return tfa.image.translate_xy(image, translate_to=[pixels, 0], replace=replace)
     return tfa.image.translate(image, [pixels, 0], interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
 
 
@@ -328,23 +327,27 @@ def translate_y(image, pixels, interpolation='nearest', fill_mode='constant', fi
 
 
 @tf.function
-def shear_x(image, level, replace):
+def shear_x(image, level, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Equivalent of PIL Shearing in X dimension."""
     # Shear parallel to x axis is a projective transform
     # with a matrix form of:
     # [1  level
     #  0  1].
-    return tfa.image.shear_x(image, level, replace)
+    #return tfa.image.shear_x(image, level, replace)
+    return tfa.image.transform(image, [1.0, level, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
+    , interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
 
 
 @tf.function
-def shear_y(image, level, replace):
+def shear_y(image, level, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Equivalent of PIL Shearing in Y dimension."""
     # Shear parallel to y axis is a projective transform
     # with a matrix form of:
     # [1  0
     #  level  1].
-    return tfa.image.shear_y(image, level, replace)
+    #return tfa.image.shear_y(image, level, replace)
+    return tfa.image.transform(image, [1.0, 0.0, 0.0, level, 1.0, 0.0, 0.0, 0.0]
+    , interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
 
 
 @tf.function
