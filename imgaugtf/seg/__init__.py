@@ -1,4 +1,4 @@
-from .seg.augmentations import (
+from .augmentations import (
     random_flip_left_right,
     random_flip_up_down,
     random_solarize,
