@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-def apply_func_with_prob_mask(func, mask_func image, mask, args, mask_args, prob):
+def apply_func_with_prob_mask(func, mask_func, image, mask, args, mask_args, prob):
     """Apply `func` to image w/ `args` as input with probability `prob`."""
 
     # Apply the function with probability `prob`.
