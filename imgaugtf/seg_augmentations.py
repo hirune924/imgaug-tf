@@ -294,5 +294,5 @@ def random_resized_crop(image, mask, size=[256, 256], area_range=(0.05, 1.0), as
     return tf.cond(
         tf.random.uniform([], 0, 1) < prob,
         lambda: _random_resized_crop(image, mask, size, area_range=area_range, aspect_ratio_range=aspect_ratio_range),
-        lambda: (tf.cast(tf.image.resize(image, size=size), tf.uint8), (tf.cast(tf.image.resize(mask, size=size), tf.uint8)),
+        lambda: (tf.cast(tf.image.resize(image, size=size), tf.uint8), tf.cast(tf.image.resize(mask, size=size), tf.uint8)),
     )
