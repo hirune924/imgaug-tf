@@ -260,3 +260,37 @@ def random_median_filter2d(image, mask, filter_shape=(3, 3), prob=0.5):
     # ksize = tf.random.uniform([], minval=filter_shape_range[0], maxval=filter_shape_range[1], dtype=tf.int32)
     return apply_func_with_prob(tfa.image.median_filter2d, image, (filter_shape,), prob), mask
 
+
+def random_crop(image, mask, area_range=(0.05, 1.0), aspect_ratio_range=(0.75, 1.33)):
+    begin, size, _ = tf.image.sample_distorted_bounding_box(
+        tf.shape(image), tf.zeros([0, 0, 4], tf.float32), 
+        area_range=area_range, 
+        aspect_ratio_range=aspect_ratio_range, 
+        min_object_covered=0, 
+        use_image_if_no_bounding_boxes=True, 
+        seed=0
+    )
+    image = tf.slice(image, begin, size)
+    mask = tf.slice(mask, begin, size)
+    image.set_shape([None, None, 3])
+    mask.set_shape([None, None, None])
+    image = tf.clip_by_value(image, 0, 255)
+    image = tf.cast(image, dtype=tf.uint8)
+    return image, mask
+
+
+def random_resized_crop(image, mask, size=[256, 256], area_range=(0.05, 1.0), aspect_ratio_range=(0.75, 1.33), prob=1.0):
+    def _random_resized_crop(image, mask, size, area_range=(0.05, 1.0), aspect_ratio_range=(0.75, 1.33)):
+        image, mask = random_crop(image, mask, area_range=area_range, aspect_ratio_range=aspect_ratio_range)
+        image = tf.image.resize(image, size=size)
+        mask = tf.image.resize(mask, size=size)
+        image = tf.cast(image, tf.uint8)
+        return image, mask
+
+    # return apply_func_with_prob(_random_resized_crop, image, (size, area_range, aspect_ratio_range), prob)
+    # return _random_resized_crop(image, size, area_range=(0.05, 1.0), aspect_ratio_range=(0.75,1.33))
+    return tf.cond(
+        tf.random.uniform([], 0, 1) < prob,
+        lambda: _random_resized_crop(image, mask, size, area_range=area_range, aspect_ratio_range=aspect_ratio_range),
+        lambda: (tf.cast(tf.image.resize(image, size=size), tf.uint8), tf.image.resize(mask, size=size)),
+    )
