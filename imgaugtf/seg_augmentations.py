@@ -296,3 +296,43 @@ def random_resized_crop(image, mask, size=[256, 256], area_range=(0.05, 1.0), as
         lambda: _random_resized_crop(image, mask, size, area_range=area_range, aspect_ratio_range=aspect_ratio_range),
         lambda: (tf.cast(tf.image.resize(image, size=size), tf.uint8), tf.cast(tf.image.resize(mask, size=size), tf.uint8)),
     )
+
+def random_cutout(image, mask, num_holes=8, hole_size=20, replace=0, prob=0.5):
+    def _random_cutout(image, num_holes, hole_size, replace):
+        for _ in range(num_holes):
+            image_height = tf.shape(image)[0]
+            image_width = tf.shape(image)[1]
+
+            # Sample the center location in the image where the zero mask will be applied.
+            cutout_center_height = tf.random.uniform(shape=[], minval=0, maxval=image_height, dtype=tf.int32)
+            cutout_center_width = tf.random.uniform(shape=[], minval=0, maxval=image_width, dtype=tf.int32)
+            
+            image = F.cutout(image, pad_size=hole_size // 2, cutout_center_height=cutout_center_height, cutout_center_width=cutout_center_width, replace=replace)
+        return image
+
+    return apply_func_with_prob(_random_cutout, image, (num_holes, hole_size, replace), prob), mask
+
+
+def random_zoom(image, mask, scale=(0.2, 0.2), interpolation: str = "nearest", fill_mode="constant", fill_value=0, prob=0.5):
+    scale = tf.random.uniform([], 1.0 - scale[0], 1.0 + scale[0])
+    # scale_y = tf.random.uniform([], 1.0 - scale[1], 1.0 + scale[1])
+    #return apply_func_with_prob(F.scale_xy, image, ((scale, scale), interpolation, fill_mode, fill_value), prob)
+    return apply_func_with_prob_mask(
+        F.scale_xy,
+        F.scale_xy,
+        image,
+        mask,
+        (
+            (scale, scale),
+            interpolation,
+            fill_mode,
+            fill_value,
+        ),
+        (
+            (scale, scale),
+            "nearest",
+            fill_mode,
+            fill_value,
+        ),
+        prob,
+    )
