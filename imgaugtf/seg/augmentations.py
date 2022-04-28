@@ -2,7 +2,8 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
-from . import functional as F
+from .. import functional as F
+
 '''
 __all__ = [
     "random_flip_left_right",
