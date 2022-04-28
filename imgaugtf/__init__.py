@@ -2,7 +2,7 @@
 #from .augmentations import *
 #from .utils import *
 #from .batch_augmentations import *
-from . import seg_augmentations as seg
+from .seg import *
 
 from .functional import (
     cutout,
