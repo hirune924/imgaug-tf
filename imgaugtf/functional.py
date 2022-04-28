@@ -4,7 +4,6 @@ import tensorflow_probability as tfp
 import math
 
 __all__ = [
-    "random_crop",
     "cutout",
     "solarize",
     "solarize_add",
@@ -25,24 +24,7 @@ __all__ = [
 
 
 @tf.function
-def random_crop(image, area_range=(0.05, 1.0), aspect_ratio_range=(0.75, 1.33)):
-    begin, size, _ = tf.image.sample_distorted_bounding_box(
-        tf.shape(image), tf.zeros([0, 0, 4], tf.float32), 
-        area_range=area_range, 
-        aspect_ratio_range=aspect_ratio_range, 
-        min_object_covered=0, 
-        use_image_if_no_bounding_boxes=True, 
-        seed=0
-    )
-    image = tf.slice(image, begin, size)
-    image.set_shape([None, None, 3])
-    image = tf.clip_by_value(image, 0, 255)
-    image = tf.cast(image, dtype=tf.uint8)
-    return image
-
-
-@tf.function
-def cutout(image, pad_size, replace=0):
+def cutout(image, pad_size, cutout_center_height, cutout_center_width, replace=0):
     """Apply cutout (https://arxiv.org/abs/1708.04552) to image.
     This operation applies a (2*pad_size x 2*pad_size) mask of zeros to
     a random location within `img`. The pixel values filled in will be of the
@@ -58,14 +40,6 @@ def cutout(image, pad_size, replace=0):
     Returns:
     An image Tensor that is of type uint8.
     """
-    image_height = tf.shape(image)[0]
-    image_width = tf.shape(image)[1]
-
-    # Sample the center location in the image where the zero mask will be applied.
-    cutout_center_height = tf.random.uniform(shape=[], minval=0, maxval=image_height, dtype=tf.int32)
-
-    cutout_center_width = tf.random.uniform(shape=[], minval=0, maxval=image_width, dtype=tf.int32)
-
     lower_pad = tf.maximum(0, cutout_center_height - pad_size)
     upper_pad = tf.maximum(0, image_height - cutout_center_height - pad_size)
     left_pad = tf.maximum(0, cutout_center_width - pad_size)
