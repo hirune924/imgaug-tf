@@ -315,9 +315,10 @@ def autocontrast(image):
 
 
 @tf.function
-def translate_x(image, pixels, replace):
+def translate_x(image, pixels, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Equivalent of PIL Translate in X dimension."""
-    return tfa.image.translate_xy(image, translate_to=[pixels, 0], replace=replace)
+    #return tfa.image.translate_xy(image, translate_to=[pixels, 0], replace=replace)
+    return tfa.image.translate(image, [pixels, 0], interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
 
 
 @tf.function
