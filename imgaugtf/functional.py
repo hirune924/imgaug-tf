@@ -322,9 +322,9 @@ def translate_x(image, pixels, interpolation='nearest', fill_mode='constant', fi
 
 
 @tf.function
-def translate_y(image, pixels, replace):
+def translate_y(image, pixels, interpolation='nearest', fill_mode='constant', fill_value=0.0):
     """Equivalent of PIL Translate in Y dimension."""
-    return tfa.image.translate_xy(image, translate_to=[0, pixels], replace=replace)
+    return tfa.image.translate(image, [0, pixels], interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
 
 
 @tf.function

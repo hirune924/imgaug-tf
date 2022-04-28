@@ -149,10 +149,10 @@ def random_translate_x(image, percent=0.5, interpolation='nearest', fill_mode='c
     return apply_func_with_prob(F.translate_x, image, (pixels, interpolation, fill_mode, fill_value), prob)
 
 
-def random_translate_y(image, percent=0.5, replace=0, prob=0.5):
+def random_translate_y(image, percent=0.5, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
     image_height, image_width = tf.shape(image)[0], tf.shape(image)[1]
     pixels = tf.cast(image_height, tf.float32) * tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
-    return apply_func_with_prob(F.translate_y, image, (pixels, replace), prob)
+    return apply_func_with_prob(F.translate_y, image, (pixels, interpolation, fill_mode, fill_value), prob)
 
 
 def random_shear_x(image, percent=0.3, replace=0, prob=0.5):
