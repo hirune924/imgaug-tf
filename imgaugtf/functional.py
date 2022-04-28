@@ -40,6 +40,8 @@ def cutout(image, pad_size, cutout_center_height, cutout_center_width, replace=0
     Returns:
     An image Tensor that is of type uint8.
     """
+    image_height = tf.shape(image)[0]
+    image_width = tf.shape(image)[1]
     lower_pad = tf.maximum(0, cutout_center_height - pad_size)
     upper_pad = tf.maximum(0, image_height - cutout_center_height - pad_size)
     left_pad = tf.maximum(0, cutout_center_width - pad_size)
