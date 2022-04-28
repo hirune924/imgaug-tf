@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 import tensorflow_probability as tfp
 import math
-
+'''
 __all__ = [
     "cutout",
     "solarize",
@@ -21,7 +21,7 @@ __all__ = [
     "shear_x",
     "shear_y",
 ]
-
+'''
 
 @tf.function
 def cutout(image, pad_size, cutout_center_height, cutout_center_width, replace=0):
