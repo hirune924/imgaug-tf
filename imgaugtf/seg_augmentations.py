@@ -145,3 +145,118 @@ def random_sharpness(image, mask, alpha_range=(-3.0, 3.0), prob=0.5):
 def random_autocontrast(image, mask, prob=0.5):
     return apply_func_with_prob(F.autocontrast, image, (), prob), mask
 
+
+
+def random_translate_x(image, mask, percent=0.5, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
+    image_height, image_width = tf.shape(image)[0], tf.shape(image)[1]
+    pixels = tf.cast(image_width, tf.float32) * tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
+    #return apply_func_with_prob(F.translate_x, image, (pixels, interpolation, fill_mode, fill_value), prob)
+    return apply_func_with_prob_mask(
+        F.translate_x,
+        F.translate_x,
+        image,
+        mask,
+        (
+            pixels,
+            interpolation,
+            fill_mode,
+            fill_value,
+        ),
+        (
+            pixels,
+            "nearest",
+            fill_mode,
+            fill_value,
+        ),
+        prob,
+    )
+
+def random_translate_y(image, mask, percent=0.5, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
+    image_height, image_width = tf.shape(image)[0], tf.shape(image)[1]
+    pixels = tf.cast(image_height, tf.float32) * tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
+    #return apply_func_with_prob(F.translate_y, image, (pixels, interpolation, fill_mode, fill_value), prob)
+    return apply_func_with_prob_mask(
+        F.translate_y,
+        F.translate_y,
+        image,
+        mask,
+        (
+            pixels,
+            interpolation,
+            fill_mode,
+            fill_value,
+        ),
+        (
+            pixels,
+            "nearest",
+            fill_mode,
+            fill_value,
+        ),
+        prob,
+    )
+
+def random_shear_x(image, mask, percent=0.3, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
+    level = tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
+    #return apply_func_with_prob(F.shear_x, image, (level, interpolation, fill_mode, fill_value), prob)
+    return apply_func_with_prob_mask(
+        F.shear_x,
+        F.shear_x,
+        image,
+        mask,
+        (
+            level,
+            interpolation,
+            fill_mode,
+            fill_value,
+        ),
+        (
+            level,
+            "nearest",
+            fill_mode,
+            fill_value,
+        ),
+        prob,
+    )
+
+def random_shear_y(image, mask, percent=0.3, interpolation='nearest', fill_mode='constant', fill_value=0.0, prob=0.5):
+    level = tf.random.uniform([], minval=-percent, maxval=percent, dtype=tf.float32)
+    #return apply_func_with_prob(F.shear_y, image, (level, interpolation, fill_mode, fill_value), prob)
+    return apply_func_with_prob_mask(
+        F.shear_y,
+        F.shear_y,
+        image,
+        mask,
+        (
+            level,
+            interpolation,
+            fill_mode,
+            fill_value,
+        ),
+        (
+            level,
+            "nearest",
+            fill_mode,
+            fill_value,
+        ),
+        prob,
+    )
+
+def random_hsv_in_yiq(image, mask, max_delta_hue=0.2, lower_saturation=0.5, upper_saturation=1.0, lower_value=0.5, upper_value=1.0, prob=0.5):
+    return apply_func_with_prob(tfa.image.random_hsv_in_yiq, image, (max_delta_hue, lower_saturation, upper_saturation, lower_value, upper_value), prob), mask
+
+
+def random_gaussian_filter2d(image, mask, filter_shape_range=(3, 7), prob=0.5):
+    ksize = tf.random.uniform([], minval=filter_shape_range[0], maxval=filter_shape_range[1], dtype=tf.int32), mask
+    # sigma = 0.3*((tf.cast(ksize, tf.float32)-1)*0.5 - 1) + 0.8
+    return apply_func_with_prob(tfa.image.gaussian_filter2d, image, ([ksize, ksize], 1.0), prob)
+
+
+def random_mean_filter2d(image, mask, filter_shape=(3, 3), prob=0.5):
+    # ksize = tf.random.uniform([], minval=filter_shape_range[0], maxval=filter_shape_range[1], dtype=tf.int32)
+    return apply_func_with_prob(tfa.image.mean_filter2d, image, (filter_shape,), prob), mask
+
+
+def random_median_filter2d(image, mask, filter_shape=(3, 3), prob=0.5):
+    # ksize = tf.random.uniform([], minval=filter_shape_range[0], maxval=filter_shape_range[1], dtype=tf.int32)
+    return apply_func_with_prob(tfa.image.median_filter2d, image, (filter_shape,), prob), mask
+
