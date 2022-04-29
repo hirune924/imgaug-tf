@@ -4,6 +4,36 @@ import tensorflow_probability as tfp
 import math
 from . import functional as F
 
+__all__ = [
+    "random_flip_left_right",
+    "random_flip_up_down",
+    "random_solarize",
+    "random_solarize_add",
+    "random_color",
+    "random_contrast",
+    "random_brightness",
+    "random_posterize",
+    "random_rotate",
+    "random_invert",
+    "random_gray",
+    "random_equalize",
+    "random_sharpness",
+    "random_autocontrast",
+    "random_translate_x",
+    "random_translate_y",
+    "random_shear_x",
+    "random_shear_y",
+    "random_hsv_in_yiq",
+    "random_gaussian_filter2d",
+    "random_mean_filter2d",
+    "random_median_filter2d",
+    "random_resized_crop",
+    "random_cutout",
+    "random_zoom",
+    "random_grid_shuffle",
+]
+
+
 def apply_func_with_prob(func, image, args, prob):
     """Apply `func` to image w/ `args` as input with probability `prob`."""
 
@@ -208,3 +238,10 @@ def random_zoom(image, scale=(0.2, 0.2), interpolation: str = "nearest", fill_mo
     scale = tf.random.uniform([], 1.0 - scale[0], 1.0 + scale[0])
     # scale_y = tf.random.uniform([], 1.0 - scale[1], 1.0 + scale[1])
     return apply_func_with_prob(F.scale_xy, image, ((scale, scale), interpolation, fill_mode, fill_value), prob)
+
+def random_grid_shuffle(image, grid_size=(4, 4), prob=0.5):
+    h, w = image.shape[:2]
+    grid_x = w // grid_size[0]
+    grid_y = h // grid_size[1]
+    order = tf.random.shuffle([ i for i in range(grid_size[0] * grid_size[1]) ])
+    return apply_func_with_prob(F.grid_shuffle, image, (grid_x, grid_y, grid_size, order), prob=0.5)
