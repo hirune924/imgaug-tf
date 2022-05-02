@@ -244,7 +244,7 @@ def random_hsv_in_yiq(image, mask, max_delta_hue=0.2, lower_saturation=0.5, uppe
 def random_gaussian_filter2d(image, mask, filter_shape_range=(3, 7), prob=0.5):
     ksize = tf.random.uniform([], minval=filter_shape_range[0], maxval=filter_shape_range[1], dtype=tf.int32), mask
     # sigma = 0.3*((tf.cast(ksize, tf.float32)-1)*0.5 - 1) + 0.8
-    return apply_func_with_prob(tfa.image.gaussian_filter2d, image, ([ksize, ksize], 1.0), prob)
+    return apply_func_with_prob(tfa.image.gaussian_filter2d, image, ([ksize, ksize], 1.0), prob), mask
 
 
 def random_mean_filter2d(image, mask, filter_shape=(3, 3), prob=0.5):
