@@ -58,7 +58,7 @@ from .augmentations import (
     random_saturation,
     random_gamma,
     random_jpeg_quality,
-    elastic_deform
+    random_elastic_deform
 )
 
 from .utils import (

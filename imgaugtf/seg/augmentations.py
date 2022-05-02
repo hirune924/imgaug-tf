@@ -401,17 +401,24 @@ def random_jpeg_quality(image, mask, jpeg_quality_range=(75, 95), prob=0.5):
     return apply_func_with_prob(F.adjust_jpeg_quality, image, (jpeg_quality, ), prob), mask
 
 
-def elastic_deform(image, mask, scale=10, strength=10):
-    size = tf.cast(tf.shape(image), tf.int32)
-    flow = tf.random.uniform([tf.math.floordiv(size[0], scale),
-                              tf.math.floordiv(size[1], scale),
-                              2], -1, 1)
-    flow = tfa.image.gaussian_filter2d(flow, filter_shape=(3, 3), sigma=5) * strength
-    flow = tf.image.resize(flow, size[0:2])
+def random_elastic_deform(image, mask, scale=10, strength=10, prob=0.5):
+    def elastic_deform(image, mask, scale, strength):
+        size = tf.cast(tf.shape(image), tf.int32)
+        flow = tf.random.uniform([tf.math.floordiv(size[0], scale),
+                                tf.math.floordiv(size[1], scale),
+                                2], -1, 1)
+        flow = tfa.image.gaussian_filter2d(flow, filter_shape=(3, 3), sigma=5) * strength
+        flow = tf.image.resize(flow, size[0:2])
+        
+        image = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(image, tf.float32), axis=0), tf.expand_dims(flow, axis=0))[0]
+        mask = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(mask, tf.float32), axis=0), tf.expand_dims(flow, axis=0))[0]
+        image = tf.clip_by_value(image, 0, 255)
+        image = tf.cast(image, tf.uint8)
+        mask = tf.cast(mask, tf.uint8)
+        return image, mask
+    return tf.cond(
+        tf.random.uniform([], 0, 1) < prob,
+        lambda: elastic_deform(image, mask, scale=scale, strength=strength),
+        lambda: (image, mask),
+    )
     
-    image = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(image, tf.float32), axis=0), tf.expand_dims(flow, axis=0))[0]
-    mask = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(mask, tf.float32), axis=0), tf.expand_dims(flow, axis=0))[0]
-    image = tf.clip_by_value(image, 0, 255)
-    image = tf.cast(image, tf.uint8)
-    mask = tf.cast(mask, tf.uint8)
-    return image, mask
