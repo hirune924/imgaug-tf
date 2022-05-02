@@ -59,39 +59,42 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 ```
 
 ## Augmentations
-<details>
-<summary>original</summary>
-
-![original](./images/deer_org.png)
-</details>
-
 ### pixel
-* random_solarize
-* random_solarize_add
-* random_color
-* random_contrast
-* random_brightness
-* random_posterize
-* random_invert
-* random_equalize
-* random_sharpness
-* random_autocontrast
-* random_hsv_in_yiq
-* random_gaussian_filter2d
-* random_mean_filter2d
-* random_median_filter2d
-* random_cutout
+|  | image | mask |
+| :---: | :---: | :---: |
+| original | ![original](./images/deer_org.png) | ![original](./images/deer_mask_org.png) |
+| random_solarize | ![random_solarize](./images/random_solarize.png) | ![original](./images/deer_mask_org.png) |
+| random_solarize_add | ![random_solarize_add](./images/random_solarize_add.png) | ![original](./images/deer_mask_org.png) |
+| random_color |![random_color](./images/random_color.png) | ![original](./images/deer_mask_org.png) |
+|  random_contrast |![random_contrast](./images/random_contrast.png) | ![original](./images/deer_mask_org.png) |
+| random_brightness | | ![original](./images/deer_mask_org.png) |
+| random_posterize | | ![original](./images/deer_mask_org.png) |
+| random_invert |![random_invert](./images/random_invert.png) |![original](./images/deer_mask_org.png)  |
+| random_equalize | ![random_equalize](./images/random_equalize.png) | ![original](./images/deer_mask_org.png) |
+| random_sharpness | | ![original](./images/deer_mask_org.png) |
+| random_autocontrast | ![random_autocontrast](./images/random_autocontrast.png) | ![original](./images/deer_mask_org.png) |
+| random_hsv_in_yiq | | ![original](./images/deer_mask_org.png) |
+| random_gaussian_filter2d | | ![original](./images/deer_mask_org.png) |
+| random_mean_filter2d | | ![original](./images/deer_mask_org.png) |
+| random_median_filter2d | | ![original](./images/deer_mask_org.png) |
+| random_cutout | ![random_cutout](./images/random_cutout.png) | ![original](./images/deer_mask_org.png) |
+
+
 
 ### geometory
-* random_flip_left_right
-* random_flip_up_down
-* random_resized_crop
-* random_rotate
-* random_translate_x
-* random_translate_y
-* random_shear_x
-* random_shear_y
-* random_zoom
+|  | image | mask |
+| :---: | :---: | :---: |
+| original | ![original](./images/deer_org.png) | ![original](./images/deer_mask_org.png) |
+| random_flip_left_right | ![random_flip_left_right](./images/random_flip_left_right.png) | ![original](./images/random_flip_left_right_mask.png) |
+| random_flip_up_down | ![random_flip_up_down](./images/random_flip_up_down.png) | ![original](./images/random_flip_up_down_mask.png) |
+| random_resized_crop | ![random_resized_crop](./images/random_resized_crop.png) | ![original](./images/random_resized_crop_mask.png) |
+| random_rotate | ![random_rotate](./images/random_rotate.png) | ![original](./images/random_rotate_mask.png) |
+| random_translate_x | ![random_translate_x](./images/random_translate_x.png) | ![original](./images/random_translate_x_mask.png) |
+| random_translate_y | ![random_translate_y](./images/random_translate_y.png) | ![original](./images/random_translate_y_mask.png) |
+| random_shear_x | ![random_shear_x](./images/random_shear_x.png) | ![original](./images/random_shear_x_mask.png) |
+| random_shear_y | ![random_shear_y](./images/random_shear_y.png) | ![original](./images/random_shear_y_mask.png) |
+| random_zoom | ![random_zoom](./images/random_zoom.png) | ![original](./images/random_zoom_mask.png) |
+
 
 ### blend
 * mixup
