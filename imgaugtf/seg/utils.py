@@ -51,9 +51,9 @@ def apply_one(image, mask, functions=OPERATORS, prob=1.0):
 
 
 def apply_n(image, mask, functions=OPERATORS, num_ops=2, prob=1.0):
-    def _apply_n(image, functions, num_ops, prob):
+    def _apply_n(image, mask, functions, num_ops, prob):
         for i in range(num_ops):
-            image = apply_one(image, functions=functions, prob=prob)
+            image = apply_one(image, mask, functions=functions, prob=prob)
         return image
 
-    return _apply_n(image, functions=functions, num_ops=num_ops, prob=prob)
+    return _apply_n(image, mask, functions=functions, num_ops=num_ops, prob=prob)
