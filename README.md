@@ -74,9 +74,9 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 | random_sharpness |![random_sharpness](./images/random_sharpness.png) | ![original](./images/deer_mask_org.png) |
 | random_autocontrast | ![random_autocontrast](./images/random_autocontrast.png) | ![original](./images/deer_mask_org.png) |
 | random_hsv_in_yiq |![random_hsv_in_yiq](./images/random_hsv_in_yiq.png) | ![original](./images/deer_mask_org.png) |
-| random_gaussian_filter2d | | ![original](./images/deer_mask_org.png) |
-| random_mean_filter2d | | ![original](./images/deer_mask_org.png) |
-| random_median_filter2d | | ![original](./images/deer_mask_org.png) |
+| random_gaussian_filter2d |![random_gaussian_filter2d](./images/random_gaussian_filter2d.png) | ![original](./images/deer_mask_org.png) |
+| random_mean_filter2d | ![random_mean_filter2d](./images/random_mean_filter2d.png)| ![original](./images/deer_mask_org.png) |
+| random_median_filter2d |![random_median_filter2d](./images/random_median_filter2d.png) | ![original](./images/deer_mask_org.png) |
 | random_cutout | ![random_cutout](./images/random_cutout.png) | ![original](./images/deer_mask_org.png) |
 
 
