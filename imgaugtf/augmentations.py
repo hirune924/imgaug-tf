@@ -243,7 +243,6 @@ def random_gamma(image, gamma_range=(0.75, 1.25), gain=1.0, prob=0.5):
     return apply_func_with_prob(F.adjust_gamma, image, (gamma, gain), prob)
 
 @tf.function
-def random_jpeg_quality(image, jpeg_quality_range(75, 95), prob=0.5):
+def random_jpeg_quality(image, jpeg_quality_range=(75, 95), prob=0.5):
     jpeg_quality = tf.random.uniform([], minval=jpeg_quality_range[0], maxval=jpeg_quality_range[1], dtype=tf.int32)
     return apply_func_with_prob(F.adjust_jpeg_quality, image, (jpeg_quality, ), prob)
-    
