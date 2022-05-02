@@ -29,7 +29,8 @@ from .augmentations import (
     random_hue,
     random_saturation,
     random_gamma,
-    random_jpeg_quality
+    random_jpeg_quality,
+    elastic_deform
 )
 
 from .utils import (

@@ -380,22 +380,38 @@ def random_affine(image, mask, translate=(-0.3, 0.3), shear=(-0.3, 0.3), rotate=
     )
 
 
-@tf.function
+
 def random_hue(image, mask, max_delta=0.2, prob=0.5):
     delta = tf.random.uniform([], minval=-max_delta, maxval=max_delta, dtype=tf.float32)
     return apply_func_with_prob(F.adjust_hue, image, (delta, ), prob), mask
 
-@tf.function
+
 def random_saturation(image, mask, saturation_factor=(0.75, 1.25), prob=0.5):
     factor = tf.random.uniform([], minval=saturation_factor[0], maxval=saturation_factor[1], dtype=tf.float32)
     return apply_func_with_prob(F.adjust_saturation, image, (factor, ), prob), mask
 
-@tf.function
+
 def random_gamma(image, mask, gamma_range=(0.75, 1.25), gain=1.0, prob=0.5):
     gamma = tf.random.uniform([], minval=gamma_range[0], maxval=gamma_range[1], dtype=tf.float32)
     return apply_func_with_prob(F.adjust_gamma, image, (gamma, gain), prob), mask
 
-@tf.function
+
 def random_jpeg_quality(image, mask, jpeg_quality_range=(75, 95), prob=0.5):
     jpeg_quality = tf.random.uniform([], minval=jpeg_quality_range[0], maxval=jpeg_quality_range[1], dtype=tf.int32)
     return apply_func_with_prob(F.adjust_jpeg_quality, image, (jpeg_quality, ), prob), mask
+
+
+def elastic_deform(image, mask, scale=10, strength=10):
+    size = tf.cast(tf.shape(image), tf.int32)
+    flow = tf.random.uniform([tf.math.floordiv(size[0], scale),
+                              tf.math.floordiv(size[1], scale),
+                              2], -1, 1)
+    flow = tfa.image.gaussian_filter2d(flow, filter_shape=(3, 3), sigma=5) * strength
+    flow = tf.image.resize(flow, size[0:2])
+    
+    image = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(image, tf.float32), axis=0), tf.expand_dims(flow, axis=0))[0]
+    mask = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(mask, tf.float32), axis=0), tf.expand_dims(flow, axis=0))[0]
+    image = tf.clip_by_value(image, 0, 255)
+    image = tf.cast(image, tf.uint8)
+    mask = tf.cast(mask, tf.uint8)
+    return image, mask
