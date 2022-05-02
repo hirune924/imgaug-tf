@@ -96,6 +96,7 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 | random_shear_x | ![random_shear_x](./images/random_shear_x.png) | ![original](./images/random_shear_x_mask.png) |
 | random_shear_y | ![random_shear_y](./images/random_shear_y.png) | ![original](./images/random_shear_y_mask.png) |
 | random_zoom | ![random_zoom](./images/random_zoom.png) | ![original](./images/random_zoom_mask.png) |
+| random_grid_shuffle | ![random_grid_shuffle](./images/random_grid_shuffle.png) | ![original](./images/random_grid_shuffle_mask.png) |
 
 
 ### blend
