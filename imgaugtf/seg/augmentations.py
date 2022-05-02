@@ -415,7 +415,7 @@ def random_elastic_deform(image, mask, scale=10, strength=10, mask_max=255, prob
         image = tf.clip_by_value(image, 0, 255)
         image = tf.cast(image, tf.uint8)
         mask = tf.cast(mask, tf.uint8)
-        mask = tf.where(mask>mask_max/2,255,0)
+        mask = tf.where(mask>mask_max//2,mask_max,0)
         return image, mask
     return tf.cond(
         tf.random.uniform([], 0, 1) < prob,
