@@ -87,16 +87,17 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 |  | image | mask |
 | :---: | :---: | :---: |
 | original | ![original](./images/deer_org.png) | ![original](./images/deer_mask_org.png) |
-| random_flip_left_right | ![random_flip_left_right](./images/random_flip_left_right.png) | ![original](./images/random_flip_left_right_mask.png) |
-| random_flip_up_down | ![random_flip_up_down](./images/random_flip_up_down.png) | ![original](./images/random_flip_up_down_mask.png) |
-| random_resized_crop | ![random_resized_crop](./images/random_resized_crop.png) | ![original](./images/random_resized_crop_mask.png) |
-| random_rotate | ![random_rotate](./images/random_rotate.png) | ![original](./images/random_rotate_mask.png) |
-| random_translate_x | ![random_translate_x](./images/random_translate_x.png) | ![original](./images/random_translate_x_mask.png) |
-| random_translate_y | ![random_translate_y](./images/random_translate_y.png) | ![original](./images/random_translate_y_mask.png) |
-| random_shear_x | ![random_shear_x](./images/random_shear_x.png) | ![original](./images/random_shear_x_mask.png) |
-| random_shear_y | ![random_shear_y](./images/random_shear_y.png) | ![original](./images/random_shear_y_mask.png) |
-| random_zoom | ![random_zoom](./images/random_zoom.png) | ![original](./images/random_zoom_mask.png) |
-| random_grid_shuffle | ![random_grid_shuffle](./images/random_grid_shuffle.png) | ![original](./images/random_grid_shuffle_mask.png) |
+| random_flip_left_right | ![random_flip_left_right](./images/random_flip_left_right.png) | ![random_flip_left_right](./images/random_flip_left_right_mask.png) |
+| random_flip_up_down | ![random_flip_up_down](./images/random_flip_up_down.png) | ![random_flip_up_down](./images/random_flip_up_down_mask.png) |
+| random_resized_crop | ![random_resized_crop](./images/random_resized_crop.png) | ![random_resized_crop](./images/random_resized_crop_mask.png) |
+| random_rotate | ![random_rotate](./images/random_rotate.png) | ![random_rotate](./images/random_rotate_mask.png) |
+| random_translate_x | ![random_translate_x](./images/random_translate_x.png) | ![random_translate_x](./images/random_translate_x_mask.png) |
+| random_translate_y | ![random_translate_y](./images/random_translate_y.png) | ![random_translate_y](./images/random_translate_y_mask.png) |
+| random_shear_x | ![random_shear_x](./images/random_shear_x.png) | ![random_shear_x](./images/random_shear_x_mask.png) |
+| random_shear_y | ![random_shear_y](./images/random_shear_y.png) | ![random_shear_y](./images/random_shear_y_mask.png) |
+| random_zoom | ![random_zoom](./images/random_zoom.png) | ![random_zoom](./images/random_zoom_mask.png) |
+| random_grid_shuffle | ![random_grid_shuffle](./images/random_grid_shuffle.png) | ![random_grid_shuffle](./images/random_grid_shuffle_mask.png) |
+| random_affine | ![random_affine](./images/random_affine.png) | ![random_affine](./images/random_affine_mask.png) |
 
 
 ### blend
