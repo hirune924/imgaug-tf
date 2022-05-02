@@ -19,6 +19,7 @@ from .functional import (
     shear_y,
     scale_xy,
     grid_shuffle,
+    affine,
 )
 
 from .augmentations import (

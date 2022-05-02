@@ -40,17 +40,17 @@ GEO_OPERATORS = [
 OPERATORS = PIXEL_OPERATORS + GEO_OPERATORS
 
 
-def apply_one(image, functions=OPERATORS, prob=1.0):
-    def _apply_one(image, functions):
+def apply_one(image, mask, functions=OPERATORS, prob=1.0):
+    def _apply_one(image, mask, functions):
         op_to_select = tf.random.uniform([], maxval=len(functions), dtype=tf.int32)
         for (i, op) in enumerate(functions):
-            image = tf.cond(tf.equal(i, op_to_select), lambda: op["func"](image, prob=1.0, **op["option"]), lambda: image)
+            image = tf.cond(tf.equal(i, op_to_select), lambda: op["func"](image, mask, prob=1.0, **op["option"]), lambda: image)
         return image
 
-    return tf.cond(tf.random.uniform([], 0, 1) < prob, lambda: _apply_one(image, functions=functions), lambda: image)
+    return tf.cond(tf.random.uniform([], 0, 1) < prob, lambda: _apply_one(image, mask, functions=functions), lambda: image)
 
 
-def apply_n(image, functions=OPERATORS, num_ops=2, prob=1.0):
+def apply_n(image, mask, functions=OPERATORS, num_ops=2, prob=1.0):
     def _apply_n(image, functions, num_ops, prob):
         for i in range(num_ops):
             image = apply_one(image, functions=functions, prob=prob)

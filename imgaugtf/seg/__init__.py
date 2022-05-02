@@ -27,3 +27,16 @@ from .augmentations import (
     random_grid_shuffle,
     random_affine,
 )
+
+from .utils import (
+    apply_one,
+    apply_n,
+    OPERATORS,
+    PIXEL_OPERATORS,
+    GEO_OPERATORS,
+)
+
+from .batch_augmentations import (
+    mixup,
+    cutmix,
+)
