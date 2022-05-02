@@ -345,13 +345,13 @@ def grid_shuffle(image, grid_x, grid_y, grid_size, order):
 
 @tf.function
 def affine(image, trans_x=0.0, trans_y=0.0, shear_x=0.0, shear_y=0.0, scale_x=1.0, scale_y=1.0, degree=0.0, interpolation='nearest', fill_mode='constant', fill_value=0):
-    size = tf.shape(image)
-    inv_cent = [[1.0, 0.0, float(-(size[1]/2+0.5))],
-                [0.0, 1.0, float(-(size[0]/2+0.5))],
+    size = tf.cast(tf.shape(image), tf.float32)
+    inv_cent = [[1.0, 0.0, -(size[1]/2+0.5)],
+                [0.0, 1.0, -(size[0]/2+0.5)],
                 [0.0, 0.0, 1.0]]
     
-    cent = [[1.0, 0.0, float(size[1]/2+0.5)],
-            [0.0, 1.0, float(size[0]/2+0.5)],
+    cent = [[1.0, 0.0, size[1]/2+0.5],
+            [0.0, 1.0, size[0]/2+0.5],
             [0.0, 0.0, 1.0]]
     
     translate_matrix = [[1.0, 0.0, trans_x],
