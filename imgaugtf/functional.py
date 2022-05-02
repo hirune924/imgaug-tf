@@ -382,3 +382,19 @@ def affine(image, trans_x=0.0, trans_y=0.0, shear_x=0.0, shear_y=0.0, scale_x=1.
     transforms /= transforms[:, 8:9]
     transforms = transforms[:, :8]
     return tfa.image.transform(image, transforms, interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
+
+@tf.function
+def adjust_hue(image, delta):
+    return tf.image.adjust_hue(image, delta)
+
+@tf.function
+def adjust_saturation(image, saturation_factor):
+    return tf.image.adjust_saturation(image, saturation_factor)
+
+@tf.function
+def adjust_gamma(image, gamma, gain):
+    return tf.image.adjust_gamma(image, gamma, gain)
+
+@tf.function
+def adjust_jpeg_quality(image, jpeg_quality):
+    return tf.image.adjust_jpeg_quality(image, jpeg_quality)

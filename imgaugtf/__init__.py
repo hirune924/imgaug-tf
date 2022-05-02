@@ -20,6 +20,10 @@ from .functional import (
     scale_xy,
     grid_shuffle,
     affine,
+    adjust_hue,
+    adjust_saturation,
+    adjust_gamma,
+    adjust_jpeg_quality
 )
 
 from .augmentations import (
@@ -50,6 +54,10 @@ from .augmentations import (
     random_zoom,
     random_grid_shuffle,
     random_affine,
+    random_hue,
+    random_saturation,
+    random_gamma,
+    random_jpeg_quality
 )
 
 from .utils import (
