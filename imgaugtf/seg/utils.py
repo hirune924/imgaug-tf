@@ -18,7 +18,7 @@ PIXEL_OPERATORS = [
     {"func": aug.random_sharpness, "option": {"alpha_range": (-3.0, 3.0)}},
     {"func": aug.random_autocontrast, "option": {}},
     {"func": aug.random_hsv_in_yiq, "option": {"max_delta_hue": 0.2, "lower_saturation": 0.5, "upper_saturation": 1.0, "lower_value": 0.5, "upper_value": 1.0}},
-    {"func": aug.random_gaussian_filter2d, "option": {"filter_shape_range": (3, 7)}},
+    {"func": aug.random_gaussian_filter2d, "option": {"filter_shape": (3, 3)}},
     {"func": aug.random_mean_filter2d, "option": {"filter_shape": (3, 3)}},
     {"func": aug.random_median_filter2d, "option": {"filter_shape": (3, 3)}},
     {"func": aug.random_gray, "option": {}},
