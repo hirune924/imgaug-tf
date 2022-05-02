@@ -66,7 +66,7 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 | random_solarize | ![random_solarize](./images/random_solarize.png) | ![original](./images/deer_mask_org.png) |
 | random_solarize_add | ![random_solarize_add](./images/random_solarize_add.png) | ![original](./images/deer_mask_org.png) |
 | random_color |![random_color](./images/random_color.png) | ![original](./images/deer_mask_org.png) |
-|  random_contrast |![random_contrast](./images/random_contrast.png) | ![original](./images/deer_mask_org.png) |
+| random_contrast |![random_contrast](./images/random_contrast.png) | ![original](./images/deer_mask_org.png) |
 | random_brightness | ![random_brightness](./images/random_brightness.png)| ![original](./images/deer_mask_org.png) |
 | random_posterize |![random_posterize](./images/random_posterize.png) | ![original](./images/deer_mask_org.png) |
 | random_invert |![random_invert](./images/random_invert.png) |![original](./images/deer_mask_org.png)  |

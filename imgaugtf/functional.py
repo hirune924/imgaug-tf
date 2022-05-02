@@ -341,3 +341,44 @@ def grid_shuffle(image, grid_x, grid_y, grid_size, order):
     out = tf.pad(out, [[0, pad_h], [0, pad_w], [0, 0]])
     out = tf.where(mask == True, out, image)
     return out
+
+
+@tf.function
+def affine(image, trans_x=0.0, trans_y=0.0, shear_x=0.0, shear_y=0.0, scale_x=1.0, scale_y=1.0, degree=0.0, interpolation='nearest', fill_mode='constant', fill_value=0):
+    size = tf.shape(image)
+    inv_cent = [[1.0, 0.0, float(-(size[1]/2+0.5))],
+                [0.0, 1.0, float(-(size[0]/2+0.5))],
+                [0.0, 0.0, 1.0]]
+    
+    cent = [[1.0, 0.0, float(size[1]/2+0.5)],
+            [0.0, 1.0, float(size[0]/2+0.5)],
+            [0.0, 0.0, 1.0]]
+    
+    translate_matrix = [[1.0, 0.0, trans_x],
+                        [0.0, 1.0, trans_y],
+                        [0.0, 0.0, 1.0]]
+
+    shear_matrix = [[1.0, shear_x, 0.0],
+                    [shear_y, 1.0, 0.0],
+                    [0.0, 0.0, 1.0]]
+
+    scale_matrix = [[scale_x, 0.0, 0.0],
+                    [0.0, scale_y, 0.0],
+                    [0.0, 0.0, 1.0]]
+
+    rad = tf.constant(0.01745329251) * degree
+    rotate_matrix = [[tf.math.cos(rad), tf.math.sin(rad), 0.0],
+                     [-tf.math.sin(rad), tf.math.cos(rad), 0.0],
+                     [0.0, 0.0, 1.0]]
+    
+    
+    matrix = tf.matmul(translate_matrix, inv_cent)
+    matrix = tf.matmul(shear_matrix, matrix)
+    matrix = tf.matmul(scale_matrix, matrix)
+    matrix = tf.matmul(rotate_matrix, matrix)
+    matrix = tf.matmul(cent, matrix)
+    
+    transforms = tf.reshape(matrix, tf.constant([-1, 9]))
+    transforms /= transforms[:, 8:9]
+    transforms = transforms[:, :8]
+    return tfa.image.transform(image, transforms, interpolation=interpolation, fill_mode=fill_mode, fill_value=fill_value)
