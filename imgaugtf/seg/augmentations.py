@@ -401,8 +401,8 @@ def random_jpeg_quality(image, mask, jpeg_quality_range=(75, 95), prob=0.5):
     return apply_func_with_prob(F.adjust_jpeg_quality, image, (jpeg_quality, ), prob), mask
 
 
-def random_elastic_deform(image, mask, scale=10, strength=10, prob=0.5):
-    def elastic_deform(image, mask, scale, strength):
+def random_elastic_deform(image, mask, scale=10, strength=10, mask_max=255, prob=0.5):
+    def elastic_deform(image, mask, scale, strength, mask_max):
         size = tf.cast(tf.shape(image), tf.int32)
         flow = tf.random.uniform([tf.math.floordiv(size[0], scale),
                                 tf.math.floordiv(size[1], scale),
@@ -415,10 +415,11 @@ def random_elastic_deform(image, mask, scale=10, strength=10, prob=0.5):
         image = tf.clip_by_value(image, 0, 255)
         image = tf.cast(image, tf.uint8)
         mask = tf.cast(mask, tf.uint8)
+        mask = tf.where(mask>mask_max/2,255,0)
         return image, mask
     return tf.cond(
         tf.random.uniform([], 0, 1) < prob,
-        lambda: elastic_deform(image, mask, scale=scale, strength=strength),
+        lambda: elastic_deform(image, mask, scale=scale, strength=strength, mask_max=mask_max),
         lambda: (image, mask),
     )
     
