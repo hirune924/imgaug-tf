@@ -78,6 +78,8 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 | random_mean_filter2d | ![random_mean_filter2d](./images/random_mean_filter2d.png)| ![original](./images/deer_mask_org.png) |
 | random_median_filter2d |![random_median_filter2d](./images/random_median_filter2d.png) | ![original](./images/deer_mask_org.png) |
 | random_cutout | ![random_cutout](./images/random_cutout.png) | ![original](./images/deer_mask_org.png) |
+| random_gray | ![random_gray](./images/random_gray.png) | ![original](./images/deer_mask_org.png) |
+
 
 
 

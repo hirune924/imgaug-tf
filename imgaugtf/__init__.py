@@ -18,6 +18,7 @@ from .functional import (
     shear_x,
     shear_y,
     scale_xy,
+    grid_shuffle,
 )
 
 from .augmentations import (
@@ -46,6 +47,7 @@ from .augmentations import (
     random_resized_crop,
     random_cutout,
     random_zoom,
+    random_grid_shuffle,
 )
 
 from .utils import (

@@ -24,4 +24,5 @@ from .augmentations import (
     random_resized_crop,
     random_cutout,
     random_zoom,
+    random_grid_shuffle,
 )

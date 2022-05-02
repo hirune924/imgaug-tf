@@ -332,3 +332,29 @@ def random_zoom(image, mask, scale=(0.2, 0.2), interpolation: str = "nearest", f
         ),
         prob,
     )
+
+def random_grid_shuffle(image, mask, grid_size=(3, 3), prob=0.5):
+    h, w = image.shape[:2]
+    grid_x = w // grid_size[0]
+    grid_y = h // grid_size[1]
+    order = tf.random.shuffle([ i for i in range(grid_size[0] * grid_size[1]) ])
+    #return apply_func_with_prob(F.grid_shuffle, image, (grid_x, grid_y, grid_size, order), prob)
+    return apply_func_with_prob_mask(
+        F.grid_shuffle,
+        F.grid_shuffle,
+        image,
+        mask,
+        (
+            grid_x,
+            grid_y,
+            grid_size,
+            order,
+        ),
+        (
+            grid_x,
+            grid_y,
+            grid_size,
+            order,
+        ),
+        prob,
+    )
