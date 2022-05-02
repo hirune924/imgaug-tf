@@ -67,13 +67,13 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 | random_solarize_add | ![random_solarize_add](./images/random_solarize_add.png) | ![original](./images/deer_mask_org.png) |
 | random_color |![random_color](./images/random_color.png) | ![original](./images/deer_mask_org.png) |
 |  random_contrast |![random_contrast](./images/random_contrast.png) | ![original](./images/deer_mask_org.png) |
-| random_brightness | | ![original](./images/deer_mask_org.png) |
-| random_posterize | | ![original](./images/deer_mask_org.png) |
+| random_brightness | ![random_brightness](./images/random_brightness.png)| ![original](./images/deer_mask_org.png) |
+| random_posterize |![random_posterize](./images/random_posterize.png) | ![original](./images/deer_mask_org.png) |
 | random_invert |![random_invert](./images/random_invert.png) |![original](./images/deer_mask_org.png)  |
 | random_equalize | ![random_equalize](./images/random_equalize.png) | ![original](./images/deer_mask_org.png) |
-| random_sharpness | | ![original](./images/deer_mask_org.png) |
+| random_sharpness |![random_sharpness](./images/random_sharpness.png) | ![original](./images/deer_mask_org.png) |
 | random_autocontrast | ![random_autocontrast](./images/random_autocontrast.png) | ![original](./images/deer_mask_org.png) |
-| random_hsv_in_yiq | | ![original](./images/deer_mask_org.png) |
+| random_hsv_in_yiq |![random_hsv_in_yiq](./images/random_hsv_in_yiq.png) | ![original](./images/deer_mask_org.png) |
 | random_gaussian_filter2d | | ![original](./images/deer_mask_org.png) |
 | random_mean_filter2d | | ![original](./images/deer_mask_org.png) |
 | random_median_filter2d | | ![original](./images/deer_mask_org.png) |
