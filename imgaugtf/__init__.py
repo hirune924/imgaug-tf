@@ -48,6 +48,7 @@ from .augmentations import (
     random_cutout,
     random_zoom,
     random_grid_shuffle,
+    random_affine,
 )
 
 from .utils import (
