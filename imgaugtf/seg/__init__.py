@@ -26,6 +26,10 @@ from .augmentations import (
     random_zoom,
     random_grid_shuffle,
     random_affine,
+    random_hue,
+    random_saturation,
+    random_gamma,
+    random_jpeg_quality
 )
 
 from .utils import (

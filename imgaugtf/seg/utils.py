@@ -22,6 +22,10 @@ PIXEL_OPERATORS = [
     {"func": aug.random_mean_filter2d, "option": {"filter_shape": (3, 3)}},
     {"func": aug.random_median_filter2d, "option": {"filter_shape": (3, 3)}},
     {"func": aug.random_gray, "option": {}},
+    {"func": aug.random_hue, "option": {"max_delta": 0.2}},
+    {"func": aug.random_saturation, "option": {"saturation_factor": (0.75, 1.25)}},
+    {"func": aug.random_gamma, "option": {"gamma_range": (0.75, 1.25)}},
+    {"func": aug.random_jpeg_quality, "option": {"jpeg_quality_range": (75, 95)}},
 ]
 GEO_OPERATORS = [
     {"func": aug.random_flip_left_right, "option": {}},

@@ -378,3 +378,24 @@ def random_affine(image, mask, translate=(-0.3, 0.3), shear=(-0.3, 0.3), rotate=
         (trans_x, trans_y, shear_x, shear_y, scale_x, scale_y, degree, "nearest", fill_mode, fill_value),
         prob,
     )
+
+
+@tf.function
+def random_hue(image, mask, max_delta=0.2, prob=0.5):
+    delta = tf.random.uniform([], minval=-max_delta, maxval=max_delta, dtype=tf.float32)
+    return apply_func_with_prob(F.adjust_hue, image, (delta, ), prob)
+
+@tf.function
+def random_saturation(image, mask, saturation_factor=(0.75, 1.25), prob=0.5):
+    factor = tf.random.uniform([], minval=saturation_factor[0], maxval=saturation_factor[1], dtype=tf.float32)
+    return apply_func_with_prob(F.adjust_saturation, image, (factor, ), prob)
+
+@tf.function
+def random_gamma(image, mask, gamma_range=(0.75, 1.25), gain=1.0, prob=0.5):
+    gamma = tf.random.uniform([], minval=gamma_range[0], maxval=gamma_range[1], dtype=tf.float32)
+    return apply_func_with_prob(F.adjust_gamma, image, (gamma, gain), prob)
+
+@tf.function
+def random_jpeg_quality(image, mask, jpeg_quality_range=(75, 95), prob=0.5):
+    jpeg_quality = tf.random.uniform([], minval=jpeg_quality_range[0], maxval=jpeg_quality_range[1], dtype=tf.int32)
+    return apply_func_with_prob(F.adjust_jpeg_quality, image, (jpeg_quality, ), prob)
