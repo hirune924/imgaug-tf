@@ -359,7 +359,7 @@ def random_grid_shuffle(image, mask, grid_size=(3, 3), prob=0.5):
         prob,
     )
 
-def random_affine(image, translate=(-0.3, 0.3), shear=(-0.3, 0.3), rotate=(-90, 90), scale=(0.75, 1.25), interpolation='nearest', fill_mode='constant', fill_value=0, prob=0.5):
+def random_affine(image, mask, translate=(-0.3, 0.3), shear=(-0.3, 0.3), rotate=(-90, 90), scale=(0.75, 1.25), interpolation='nearest', fill_mode='constant', fill_value=0, prob=0.5):
     size = tf.shape(image)
     trans_x = tf.random.uniform([], minval=translate[0], maxval=translate[1], dtype=tf.float32) * tf.cast(size[1], tf.float32)
     trans_y = tf.random.uniform([], minval=translate[0], maxval=translate[1], dtype=tf.float32) * tf.cast(size[0], tf.float32)
