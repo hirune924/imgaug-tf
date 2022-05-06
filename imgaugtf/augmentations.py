@@ -288,6 +288,7 @@ def random_sparse_warp(image, dst_x=0.3, dst_y=0.3, prob=0.5):
 
 def random_gaussian_noise(image, stddev_range=[5, 95], prob=0.5):
     def gaussian_noise(image, stddev_range):
+        image = tf.cast(image, tf.float32)
         stddev = tf.random.uniform([], minval=stddev_range[0], maxval=stddev_range[1], dtype=tf.float32)
         image = tf.random.normal(tf.shape(image), stddev=stddev) + image
         image = tf.clip_by_value(image, 0, 255)
@@ -296,5 +297,21 @@ def random_gaussian_noise(image, stddev_range=[5, 95], prob=0.5):
     return tf.cond(
         tf.random.uniform([], 0, 1) < prob,
         lambda: gaussian_noise(image, stddev_range=stddev_range),
+        lambda: image,
+    )
+
+def random_speckle_noise(image, prob_range=[0.0, 0.05], prob=0.5):
+    def speckle_noise(image, prob_range):
+        image = tf.cast(image, tf.float32)
+        prob = tf.random.uniform([], minval=prob_range[0], maxval=prob_range[1], dtype=tf.float32)
+        sample = tf.random.uniform(tf.shape(image))
+        image = tf.where(sample <= prob, tf.cast(tf.zeros_like(image), tf.float32), image)
+        image = tf.where(sample >= (1. - prob), 255.*tf.cast(tf.ones_like(image), tf.float32), image)
+        image = tf.clip_by_value(image, 0, 255)
+        image = tf.cast(image, tf.uint8)
+        return image
+    return tf.cond(
+        tf.random.uniform([], 0, 1) < prob,
+        lambda: speckle_noise(image, prob_range=prob_range),
         lambda: image,
     )

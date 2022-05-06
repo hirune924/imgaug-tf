@@ -84,6 +84,7 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
 | random_gamma | ![random_gamma](./images/random_gamma.png) | ![original](./images/deer_mask_org.png) |
 | random_jpeg_quality | ![random_jpeg_quality](./images/random_jpeg_quality.png) | ![original](./images/deer_mask_org.png) |
 | random_gaussian_noise | ![random_gaussian_noise](./images/random_gaussian_noise.png) | ![original](./images/deer_mask_org.png) |
+| random_speckle_noise | ![random_speckle_noise](./images/random_speckle_noise.png) | ![original](./images/deer_mask_org.png) |
 
 
 
