@@ -26,6 +26,8 @@ PIXEL_OPERATORS = [
     {"func": aug.random_saturation, "option": {"saturation_factor": (0.75, 1.25)}},
     {"func": aug.random_gamma, "option": {"gamma_range": (0.75, 1.25)}},
     {"func": aug.random_jpeg_quality, "option": {"jpeg_quality_range": (75, 95)}},
+    {"func": aug.random_gaussian_noise, "option": {"stddev_range": (5, 95)}},
+    {"func": aug.random_speckle_noise, "option": {"prob_range": (0.0, 0.05)}},
 ]
 GEO_OPERATORS = [
     {"func": aug.random_flip_left_right, "option": {}},
@@ -39,6 +41,8 @@ GEO_OPERATORS = [
     {"func": aug.random_grid_shuffle, "option": {"grid_size": (3, 3)}},
     {"func": aug.random_affine, "option": {"translate": (-0.3, 0.3), "shear": (-0.3, 0.3), "rotate": (-90, 90), "scale": (0.75, 1.25)
     , "interpolation": 'nearest', "fill_mode": 'constant', "fill_value": 0}},
+    {"func": aug.random_elastic_deform, "option": {"scale": 10, "strength": 10}},
+    {"func": aug.random_sparse_warp, "option": {"dst_x": 0.3, "dst_y": 0.3}},
 ]
 
 OPERATORS = PIXEL_OPERATORS + GEO_OPERATORS
