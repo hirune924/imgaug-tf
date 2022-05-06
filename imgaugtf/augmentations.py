@@ -315,3 +315,17 @@ def random_speckle_noise(image, prob_range=[0.0, 0.05], prob=0.5):
         lambda: speckle_noise(image, prob_range=prob_range),
         lambda: image,
     )
+
+def random_crop(image, size=(128,128), prob=0.5):
+    def _random_crop(image, size):
+        shape = tf.shape(image)
+        size = tf.convert_to_tensor([size[0], size[1], shape[2]])
+        limit = shape - size + 1
+        offset = tf.random.uniform(tf.shape(shape), dtype=size.dtype, maxval=size.dtype.max) % limit
+        image = tf.slice(image, offset, size)
+        return image
+    return tf.cond(
+        tf.random.uniform([], 0, 1) < prob,
+        lambda: _random_crop(image, size),
+        lambda: tf.cast(tf.image.resize(image, size=size), tf.uint8),
+    )

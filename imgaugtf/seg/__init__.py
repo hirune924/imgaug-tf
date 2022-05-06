@@ -33,7 +33,8 @@ from .augmentations import (
     random_elastic_deform,
     random_sparse_warp,
     random_gaussian_noise,
-    random_speckle_noise
+    random_speckle_noise,
+    random_crop
 )
 
 from .utils import (
