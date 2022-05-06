@@ -1,7 +1,7 @@
 # imgaug-tf
 
 An image augmentation library for tensorflow. 
-This library is implemented in TF native and has been confirmed to work with TPU.
+This library is implemented in TF native and has been tested to work with TPU.
 
 ## Installation
 ```bash
