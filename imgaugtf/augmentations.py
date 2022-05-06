@@ -285,3 +285,16 @@ def random_sparse_warp(image, dst_x=0.3, dst_y=0.3, prob=0.5):
         lambda: _random_sparse_warp(image, dst_x=dst_x, dst_y=dst_y),
         lambda: image,
     )
+
+def random_gaussian_noise(image, stddev_range=[5, 95], prob=0.5):
+    def gaussian_noise(image, stddev_range):
+        stddev = tf.random.uniform([], minval=stddev_range[0], maxval=stddev_range[1], dtype=tf.float32)
+        image = tf.random.normal(tf.shape(image), stddev=stddev) + image
+        image = tf.clip_by_value(image, 0, 255)
+        image = tf.cast(image, tf.uint8)
+        return image
+    return tf.cond(
+        tf.random.uniform([], 0, 1) < prob,
+        lambda: gaussian_noise(image, stddev_range=stddev_range),
+        lambda: image,
+    )

@@ -31,7 +31,8 @@ from .augmentations import (
     random_gamma,
     random_jpeg_quality,
     random_elastic_deform,
-    random_sparse_warp
+    random_sparse_warp,
+    random_gaussian_noise
 )
 
 from .utils import (
