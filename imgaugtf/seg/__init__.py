@@ -30,7 +30,8 @@ from .augmentations import (
     random_saturation,
     random_gamma,
     random_jpeg_quality,
-    random_elastic_deform
+    random_elastic_deform,
+    random_sparse_warp
 )
 
 from .utils import (

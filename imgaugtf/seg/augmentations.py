@@ -423,3 +423,25 @@ def random_elastic_deform(image, mask, scale=10, strength=10, mask_max=255, prob
         lambda: (image, mask),
     )
     
+def random_sparse_warp(image, mask, dst_x=0.3, dst_y=0.3, mask_max=255, prob=0.5):
+    def _random_sparse_warp(image, mask, dst_x, dst_y, mask_max):
+        size = tf.cast(tf.shape(image), tf.float32)
+        src_points = tf.cast(tf.convert_to_tensor([[[0,0],[0,size[0]],[size[1],0],[size[1], size[0]]]]), tf.float32)
+        shift_x = tf.random.uniform([1,4], -size[1]*dst_x, size[1]*dst_x) + tf.cast(tf.convert_to_tensor([[0,0,size[1],size[1]]]), tf.float32)
+        shift_y = tf.random.uniform([1,4], -size[0]*dst_y, size[0]*dst_y) + tf.cast(tf.convert_to_tensor([[0,size[0],0,size[0]]]), tf.float32)
+
+        dst_points = tf.stack([shift_x, shift_y], axis=2)
+        image, flow = tfa.image.sparse_image_warp(image=tf.cast(tf.convert_to_tensor(image), tf.float32), 
+                                            source_control_point_locations=src_points,
+                                            dest_control_point_locations=dst_points)
+        mask = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(mask, tf.float32), axis=0), flow)[0]
+        image = tf.clip_by_value(image, 0, 255)
+        image = tf.cast(image, tf.uint8)
+        mask = tf.cast(mask, tf.uint8)
+        mask = tf.where(mask>mask_max//2,mask_max,0)
+        return image, mask
+    return tf.cond(
+        tf.random.uniform([], 0, 1) < prob,
+        lambda: _random_sparse_warp(image, mask, dst_x=dst_x, dst_y=dst_y, mask_max=mask_max),
+        lambda: (image, mask),
+    )
