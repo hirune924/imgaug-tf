@@ -210,9 +210,12 @@ def random_zoom(image, scale=(0.2, 0.2), interpolation: str = "nearest", fill_mo
     return apply_func_with_prob(F.scale_xy, image, ((scale, scale), interpolation, fill_mode, fill_value), prob)
 
 def random_grid_shuffle(image, grid_size=(3, 3), prob=0.5):
-    h, w = image.shape[:2]
-    grid_x = w // grid_size[0]
-    grid_y = h // grid_size[1]
+    #h, w = image.shape[:2]
+    size = tf.shape(image)
+    #grid_x = size[1] // grid_size[0]
+    grid_x = tf.math.floordiv(size[1], grid_size[0])
+    #grid_y = size[0] // grid_size[1]
+    grid_y = tf.math.floordiv(size[0], grid_size[1])
     order = tf.random.shuffle([ i for i in range(grid_size[0] * grid_size[1]) ])
     return apply_func_with_prob(F.grid_shuffle, image, (grid_x, grid_y, grid_size, order), prob)
 
