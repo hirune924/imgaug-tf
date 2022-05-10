@@ -439,8 +439,8 @@ def random_sparse_warp(image, mask, dst_x=0.3, dst_y=0.3, mask_max=255, prob=0.5
         mask = tfa.image.dense_image_warp(tf.expand_dims(tf.cast(mask, tf.float32), axis=0), flow)[0]
         image = tf.clip_by_value(image, 0, 255)
         image = tf.cast(image, tf.uint8)
-        mask = tf.cast(mask, tf.uint8)
         mask = tf.where(mask>mask_max//2,mask_max,0)
+        mask = tf.cast(mask, tf.uint8)
         return image, mask
     return tf.cond(
         tf.random.uniform([], 0, 1) < prob,
