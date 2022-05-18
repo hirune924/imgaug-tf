@@ -22,6 +22,7 @@ def cutout(image, pad_size, cutout_center_height, cutout_center_width, replace=0
     """
     image_height = tf.shape(image)[0]
     image_width = tf.shape(image)[1]
+    image_channel = tf.shape(image)[2]
     lower_pad = tf.maximum(0, cutout_center_height - pad_size)
     upper_pad = tf.maximum(0, image_height - cutout_center_height - pad_size)
     left_pad = tf.maximum(0, cutout_center_width - pad_size)
@@ -31,7 +32,7 @@ def cutout(image, pad_size, cutout_center_height, cutout_center_width, replace=0
     padding_dims = [[lower_pad, upper_pad], [left_pad, right_pad]]
     mask = tf.pad(tf.zeros(cutout_shape, dtype=image.dtype), padding_dims, constant_values=1)
     mask = tf.expand_dims(mask, -1)
-    mask = tf.tile(mask, [1, 1, 3])
+    mask = tf.tile(mask, [1, 1, image_channel])
     image = tf.where(tf.equal(mask, 0), tf.ones_like(image, dtype=image.dtype) * replace, image)
     return image
 
