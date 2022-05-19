@@ -6,6 +6,7 @@ import math
 def mixup(image, mask, alpha=0.5):
     batch_size = tf.shape(image)[0]
     image = tf.cast(image, tf.float32)
+    mask = tf.cast(mask, tf.float32)
     mix_weight = tfp.distributions.Beta(alpha, alpha).sample([batch_size, 1])
     mix_weight = tf.maximum(mix_weight, 1.0 - mix_weight)
     img_weight = tf.cast(tf.reshape(mix_weight, [batch_size, 1, 1, 1]), image.dtype)
@@ -15,8 +16,8 @@ def mixup(image, mask, alpha=0.5):
     #label_weight = tf.cast(mix_weight, label.dtype)
     mask = mask * img_weight + mask[::-1] * (1.0 - img_weight)
 
-    image = tf.clip_by_value(image, 0, 255)
-    image = tf.cast(image, dtype=tf.uint8)
+    #image = tf.clip_by_value(image, 0, 255)
+    #image = tf.cast(image, dtype=tf.uint8)
     return image, mask
 
 
@@ -58,6 +59,7 @@ def cutmix(image, label_mask):
         with CutMix regularization applied.
     """
     image = tf.cast(image, tf.float32)
+    label_mask = tf.cast(label_mask, tf.float32)
     image_height, image_width = tf.shape(image)[1], tf.shape(image)[2]
     mask = cutmix_mask(alpha=1.0, h=image_height, w=image_width)
 
@@ -69,6 +71,6 @@ def cutmix(image, label_mask):
     #mix_area = tf.cast(mix_area, label.dtype)
     #mixed_label = (1.0 - mix_area) * label + mix_area * label[::-1]
 
-    mixed_image = tf.clip_by_value(mixed_image, 0, 255)
-    mixed_image = tf.cast(mixed_image, dtype=tf.uint8)
+    #mixed_image = tf.clip_by_value(mixed_image, 0, 255)
+    #mixed_image = tf.cast(mixed_image, dtype=tf.uint8)
     return mixed_image, mixed_label_mask
