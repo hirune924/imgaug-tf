@@ -12,8 +12,8 @@ def mixup(image, mask, alpha=0.5):
     # Mixup on a single batch is implemented by taking a weighted sum with the
     # same batch in reverse.
     image = image * img_weight + image[::-1] * (1.0 - img_weight)
-    label_weight = tf.cast(mix_weight, label.dtype)
-    mask = mask * label_weight + mask[::-1] * (1 - label_weight)
+    #label_weight = tf.cast(mix_weight, label.dtype)
+    mask = mask * img_weight + mask[::-1] * (1.0 - img_weight)
 
     image = tf.clip_by_value(image, 0, 255)
     image = tf.cast(image, dtype=tf.uint8)
