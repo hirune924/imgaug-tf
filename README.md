@@ -5,8 +5,7 @@ This library is implemented in TF native and has been tested to work with TPU.
 
 ## Installation
 ```bash
-%env TOKEN=[your secret access token]
-!pip install -U git+https://$$TOKEN@github.com/hirune924/imgaug-tf
+!pip install -U git+https://github.com/hirune924/imgaug-tf
 ```
 Required packages:
 - tensorflow (2.6.3 or higher recommended)
