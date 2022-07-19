@@ -61,6 +61,9 @@ functions is list of dict like this example. dict has keys of 'func' and 'option
     {"func": imgaugtf.random_solarize_add, "option": {"addition": 30, "threshold": 128}},
 ]
 ```
+## Examples
+* [calssification](./examples/train_classification.py)
+* [segmentation](./examples/train_segmentation.py)
 
 ## Augmentations
 ### pixel
