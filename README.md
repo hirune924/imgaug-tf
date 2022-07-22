@@ -8,7 +8,7 @@ This library is implemented in TF native and has been tested to work with TPU.
 ```bash
 !pip install -U imgaugtf
 ```
-or for latest version
+or for nightly version
 ```bash
 !pip install -U git+https://github.com/hirune924/imgaug-tf
 ```
